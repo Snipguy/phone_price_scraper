@@ -8,6 +8,10 @@ from datetime import date
 from docx.shared import Pt
 import os
 from docx2pdf import convert
+from tqdm import tqdm
+from turtle import update
+
+
 
 
 chrome_options = Options()
@@ -129,6 +133,10 @@ else:
     phone_models = []
     for key in digi_urls.keys():
         phone_models.append(key)
+    d_pbar = tqdm(total=urls_len)
+    t_pbar = tqdm(total=urls_len)
+    c_pbar = tqdm(total=100)
+    m_pbar = tqdm(total=3)
 
 def digi_scrape():
     for url in digi_urls:
@@ -195,7 +203,7 @@ def digi_scrape():
         else:
             d_prices.append("**")
         
-
+        d_pbar.update(1)
         # quiting the browser
         driver.quit
 
@@ -266,6 +274,7 @@ def techno_scrape():
             else:
                 t_prices.append(price.text)
 
+        t_pbar.update(1)
     driver.quit
 
 
@@ -285,36 +294,36 @@ def creat_document():
 
 
     hdr_cells = table.rows[0].cells
-    hdr_cells[0].text = 'مدل گوشی'
+    hdr_cells[0].paragraphs[0].add_run('مدل گوشی').bold = True
     hdr_cells[1].text = 'Digikala'
     hdr_cells[2].text = 'Technolife'
 
     for i in range(urls_len):
         row_cells = table.add_row().cells
-        row_cells[0].text = phone_models[i]
+        row_cells[0].paragraphs[0].add_run(phone_models[i]).bold = True
         row_cells[1].text = d_prices[i]
         row_cells[2].text = t_prices[i]
 
-
     today = date.today()
-
     document.save(f"{str(today)}.docx")
+    c_pbar.update(50)
+
     convert(f"{str(today)}.docx" , 'output.pdf')
     os.remove(f"{str(today)}.docx")
-
-
-techno_scrape()
-digi_scrape()
-creat_document()
-
-# import pickle
+    c_pbar.update(50)
+    
 
 
 
-# file = open('dump.txt', 'wb')
-# pickle.dump(data , file)
-
-# file.close()
 
 
+def main():
+    techno_scrape()
+    m_pbar.update(1)
+    digi_scrape()
+    m_pbar.update(1)
+    creat_document()
+    m_pbar.update(1)
 
+
+main()
