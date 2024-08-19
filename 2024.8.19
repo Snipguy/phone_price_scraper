@@ -6,8 +6,8 @@ from persian_tools import digits
 from docx import Document
 from datetime import date
 from docx.shared import Pt
-# from spire.doc import *
-# from spire.doc.common import *
+import os
+from docx2pdf import convert
 
 
 chrome_options = Options()
@@ -278,16 +278,10 @@ def creat_document():
 
     style = document.styles['Normal']
     table.style = 'Table Grid'
-    style.font.name = "Calibri"
-    style.font.size = Pt(22)
+    style.font.name = "Calibri" # type: ignore
+    style.font.size = Pt(20) # type: ignore
 
     # The array of Phone model names , digikala prices , technolife prices
-
-    records = (
-        ('A25-128-8', '12,100', '11,200'),
-        ('A35-256-8', '15,350', '15,270'),
-        ('S23FE-256-8', '31,000', '32,300\nBlack')
-    )
 
 
     hdr_cells = table.rows[0].cells
@@ -304,8 +298,10 @@ def creat_document():
 
     today = date.today()
 
-    document.save(str(today) + '.docx')
-data = t_prices
+    document.save(f"{str(today)}.docx")
+    convert(f"{str(today)}.docx" , 'output.pdf')
+    os.remove(f"{str(today)}.docx")
+
 
 techno_scrape()
 digi_scrape()
