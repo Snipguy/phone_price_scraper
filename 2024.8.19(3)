@@ -139,10 +139,10 @@ else:
     m_pbar = tqdm(total=3)
 
 def digi_scrape():
-    for url in digi_urls:
+    for model , url in digi_urls.items():
         out_off_stock = False
         rang = False
-        driver.get(digi_urls[url])
+        driver.get(url)
         driver.implicitly_wait(5)
 
         color = False
@@ -175,7 +175,7 @@ def digi_scrape():
                     break
 
         
-        print(url , end=" ")
+        print(model , end=" ")
         # if rang:
         #     print(rang , end=" ")
             
@@ -212,14 +212,14 @@ percent = 100 / len(techno_urls)
 
 # loading the page 
 def techno_scrape():
-    for url in techno_urls:
-        driver.get(techno_urls[url])
+    for model , url in techno_urls.items():
+        driver.get(url)
 
         rang = 'N/A'
         out_off_stock = False
         color = False
         price = "//"
-        print(url , end="---")
+        print(model , end="---")
 
         
 
