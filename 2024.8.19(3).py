@@ -7,7 +7,6 @@ from persian_tools import digits
 from docx import Document
 from docx.shared import Pt
 from docx2pdf import convert
-from tqdm import tqdm
 from persiantools.jdatetime import JalaliDate
 import os
 import time
@@ -113,7 +112,7 @@ xpath_for_price_techno = {
     '5': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[2]/div/div/div/p[2]',
     '6': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[4]/div/div/div/p[2]'
 }
-# I am learning github
+
 
 
 if len(digi_urls) != len(techno_urls):
