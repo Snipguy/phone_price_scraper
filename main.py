@@ -7,10 +7,12 @@ from persian_tools import digits
 from docx import Document
 from docx.shared import Pt
 from docx2pdf import convert
-from tqdm import tqdm
 from persiantools.jdatetime import JalaliDate
 import os
 import time
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 chrome_options = Options()
@@ -113,7 +115,7 @@ xpath_for_price_techno = {
     '5': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[2]/div/div/div/p[2]',
     '6': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[4]/div/div/div/p[2]'
 }
-# I am learning github
+
 
 
 if len(digi_urls) != len(techno_urls):
@@ -134,59 +136,69 @@ def digi_scrape():
         out_off_stock = True
         rang = False
         driver.get(url)
-        driver.implicitly_wait(10)
-
+        
         try:
-            driver.find_element(By.XPATH , '//*[@id="__next"]/div[1]/div[3]/div[3]/div[2]/div[2]/div[2]/div[2]/div[4]/div/div/div/button/div[2]/div')
-        except NoSuchElementException:
-            out_off_stock = False
-        else:
-            print(f"{model} **")
-            d_prices.append('**')
-            continue
+            product_title = WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='pdp-title']"))
+                )      
+            
 
-        # cheking for the colors available
-        try:
-            black_btn = driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(0, 33, 113);']")
-        except NoSuchElementException:
             try:
-                dark_blue_btn = driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(33, 33, 33);']")
+                driver.find_element(By.XPATH , '//*[@id="__next"]/div[1]/div[3]/div[3]/div[2]/div[2]/div[2]/div[2]/div[4]/div/div/div/button/div[2]/div')
             except NoSuchElementException:
-                pass
+                out_off_stock = False
             else:
-                rang = "Dark Blue"
-                dark_blue_btn.click()
-        else:
-            rang = "Black"
-            black_btn.click()
-        
+                print(f"{model} **")
+                d_prices.append('**')
+                continue
 
-        if rang:
-            print(model , rang, end=" ")
-        else:
-            print(model , end=" ")
-        
-        try:
-            price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
-        except NoSuchElementException:
+            # cheking for the colors available
             try:
-                price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                black_btn = driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(0, 33, 113);']")
             except NoSuchElementException:
-                d_prices.append("//")
-                print('//')
-        
-
-        if out_off_stock == False:
-            if isinstance(price , str):
-                d_prices.append(price)
-                print(price)
+                try:
+                    dark_blue_btn = driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(33, 33, 33);']")
+                except NoSuchElementException:
+                    pass
+                else:
+                    rang = "Dark Blue"
+                    dark_blue_btn.click()
             else:
-                final = digits.convert_to_en(price.text)
-                d_prices.append(final)
-                print(final)
+                rang = "Black"
+                black_btn.click()
+            
 
+            if rang:
+                print(model , rang, end=" ")
+            else:
+                print(model , end=" ")
+            
+            try:
+                price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
+            except NoSuchElementException:
+                try:
+                    price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                except NoSuchElementException:
+                    d_prices.append("//")
+                    print('//')
+            
+
+            if out_off_stock == False:
+                if isinstance(price , str):
+                    d_prices.append(price)
+                    print(price)
+                else:
+                    final = digits.convert_to_en(price.text)
+                    d_prices.append(final)
+                    print(final)
+        
+        except TimeoutException:
+            print(f"Failed to find the title for {url} within the given time.")
+            d_prices.append('//')
+
+        continue
         # d_pbar.update(1)
-        driver.quit
+    driver.quit
 
 percent = 100 / len(techno_urls)
 
@@ -197,55 +209,67 @@ def techno_scrape():
         print(model , end="---")
 
         try:
-            out_off_stock = driver.find_element(By.XPATH , '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[2]/div/div/div/div/div/p[contains (text() , "ناموجود")]')
-        except NoSuchElementException:
-            pass
-        else:
-            t_prices.append("**")
-            print('**')
-            continue
+            product_title = WebDriverWait(driver, 20).until(
+                    EC.presence_of_element_located((By.ID, "pdp_name"))
+                )     
+            
 
-        rang = 'N/A'
-        out_off_stock = False
-        price = "//"
+            try:
+                out_off_stock = driver.find_element(By.XPATH , '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[2]/div/div/div/div/div/p[contains (text() , "ناموجود")]')
+            except NoSuchElementException:
+                pass
+            else:
+                t_prices.append("**")
+                print('**')
+                continue
 
+            rang = 'N/A'
+            out_off_stock = False
+            price = "//"
+
+            
+
+            # cheking for the colors available
+            try:
+                black_btn = driver.find_element(By.CSS_SELECTOR, "[style='background-color:#1a1a1a'")
+            except NoSuchElementException:
+                try:
+                    dark_blue_btn = driver.find_element(By.CSS_SELECTOR, "[style='background-color:#00009c']")
+                except NoSuchElementException:
+                    pass
+                else:
+                    dark_blue_btn.click()
+                    rang = "DarkBlue"
+            else:
+                black_btn.click()
+                rang = "Black"
+
+
+            # finding the price and scraping it
+            for x in xpath_for_price_techno:
+                try:
+                    price = driver.find_element(By.XPATH , xpath_for_price_techno[x])
+                except NoSuchElementException:
+                    pass
+                else:
+                    break
         
 
-        # cheking for the colors available
-        try:
-            black_btn = driver.find_element(By.CSS_SELECTOR, "[style='background-color:#1a1a1a'")
-        except NoSuchElementException:
-            try:
-                dark_blue_btn = driver.find_element(By.CSS_SELECTOR, "[style='background-color:#00009c']")
-            except NoSuchElementException:
-                pass
-            else:
-                dark_blue_btn.click()
-                rang = "DarkBlue"
-        else:
-            black_btn.click()
-            rang = "Black"
+
+            if out_off_stock == False:
+                if isinstance(price, str):
+                    t_prices.append(price)
+                    print(price)
+                else:
+                    t_prices.append(price.text)
+                    print(price.text)
+            
+        except TimeoutException:
+                print(f"Failed to find the title for {model} within the given time.")
+                t_prices.append('//')
 
 
-        # finding the price and scraping it
-        for x in xpath_for_price_techno:
-            try:
-                price = driver.find_element(By.XPATH , xpath_for_price_techno[x])
-            except NoSuchElementException:
-                pass
-            else:
-                break
-    
-
-
-        if out_off_stock == False:
-            if isinstance(price, str):
-                t_prices.append(price)
-                print(price)
-            else:
-                t_prices.append(price.text)
-                print(price.text)
- 
+        continue
         # t_pbar.update(1)
     driver.quit
 
