@@ -336,15 +336,25 @@ def creat_document():
         row_cells[1].text = d_prices[i]
         row_cells[2].text = t_prices[i]
 
-    today_date = JalaliDate.today()
-    document.save(f"{str(today_date)}.docx")
-    # c_pbar.update(50)
-    
+    today_date = str(JalaliDate.today())
+    file_name = today_date[5:]
+    path = today_date[:-3]
 
-    convert(f"{str(today_date)}.docx" , f'{str(today_date)}.pdf')
-    os.remove(f"{str(today_date)}.docx")
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+    document.save(f"{today_date}.docx")
     # c_pbar.update(50)
 
+    doc_file = os.path.join(path, f"{file_name}.docx")
+    document.save(doc_file)
+
+    # Convert the document to PDF
+    pdf_file = os.path.join(path, f'{file_name}.pdf')
+    convert(doc_file, pdf_file)
+
+     
+    os.remove(doc_file)
 
 
 def main():
