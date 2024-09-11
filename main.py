@@ -1,7 +1,7 @@
-from calendar import month
+import logging
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from persian_tools import digits
 from docx import Document
@@ -18,6 +18,7 @@ from selenium.webdriver.support import expected_conditions as EC
 chrome_options = Options()
 chrome_options.add_argument('--headless')
 # chrome_options.add_argument("--window-size=1920,1080")
+chrome_options.add_argument("--disable-popup-blocking")
 chrome_options.add_argument("--start-maximized")
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--no-sandbox")
@@ -30,8 +31,10 @@ chrome_options.add_argument("--disable-images")
 driver = webdriver.Chrome(options=chrome_options)
 
 
+logger = logging.getLogger('selenium')
 t_prices = []
 d_prices = []
+
 
 digi_urls = {
     "A05-64-4" : r"https://www.digikala.com/product/dkp-13586950/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B3%D8%A7%D9%85%D8%B3%D9%88%D9%86%DA%AF-%D9%85%D8%AF%D9%84-galaxy-a05-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-64-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-4-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/",
@@ -102,7 +105,7 @@ techno_urls = {
     "Note-13-pro-4g-256-8": r'https://www.technolife.ir/product-33679/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-4g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA',
     "Note-13-pro-4g-512-12": r'https://www.technolife.ir/product-33508/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-4g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-512-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA',
     "Note-13-pro-5g-512-12": r'https://www.technolife.ir/product-29522/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-5g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-512-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA',
-    "Note-13-pro-plus-5g-256-8": r'http://google.com',
+    "Note-13-pro-plus-5g-256-8": r"https://www.google.com",
     "Note-13-pro-plus-5g-512-12": r'https://www.technolife.ir/product-34602/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-plus-5g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-512-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%A8%D9%87-%D9%87%D9%85%D8%B1%D8%A7%D9%87-%D8%B4%D8%A7%D8%B1%DA%98%D8%B1',
     "Poco-X6-256-12": r'https://www.technolife.ir/product-33517/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D9%BE%D9%88%DA%A9%D9%88-%D9%85%D8%AF%D9%84-x6-5g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA',
     "Poco-X6-512-12": r'https://www.technolife.ir/product-32888/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D9%BE%D9%88%DA%A9%D9%88-%D9%85%D8%AF%D9%84-x6-5g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-512-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA',
@@ -112,7 +115,6 @@ techno_urls = {
     # "": r''
 }
 
-print(str(len(techno_urls)) + " " + str(len(digi_urls)))
 
 xpath_for_black_techno = [
     '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[1]/div/div[3]/div/div[2]/div/div/div/div/div[1]/div/p[contains(text() , "مشکی")]',
@@ -157,6 +159,45 @@ else:
     # t_pbar = tqdm(total=urls_len)
     # c_pbar = tqdm(total=100)
     # m_pbar = tqdm(total=3)
+
+def deny(btn):
+    try:
+        # Wait for the 'deny' button to appear
+        deny_btn = WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.ID, "webpush-onsite"))
+        )
+        iframe = driver.find_element(By.ID, 'webpush-onsite')
+        driver.switch_to.frame(iframe)
+        
+        # Try clicking the deny button
+        try:
+            deny_btn.click()
+        except Exception as e:
+            if isinstance(e, ElementClickInterceptedException):
+                logger.debug("Debug : ElementClickInterceptedException")
+            else:
+                logger.debug(f"Debug : Exception occurred - {type(e).__name__}")
+            
+            try:
+                # Try clicking with XPATH as fallback
+                driver.find_element(By.XPATH, '//*[@id="deny"]').click()
+            except Exception as inner_e:
+                logger.debug(f"Debug : Failed to click deny button - {type(inner_e).__name__}")
+                t_prices.append('//')
+                print('*/')
+                driver.implicitly_wait(500)
+                return 1
+        else:
+            # Default action if deny button is clicked successfully
+            btn.click()
+    except TimeoutException:
+        logger.debug("Debug : DenyButtonNotFound [In_Time]")
+        t_prices.append('//')
+        print('/*')
+        return 1
+    finally:
+        # Switch back to the main content in all cases
+        driver.switch_to.default_content()
 
 
 def digi_scrape():
@@ -235,12 +276,12 @@ def techno_scrape():
     for model , url in techno_urls.items():
         print(model , end="---")
 
-        if url == r"http://google.com":
+        if url == r"https://www.google.com": 
             out_off_stock = True
             t_prices.append("**")
             print('**')
             continue
-        
+    
         driver.get(url)
 
         try:
@@ -273,11 +314,21 @@ def techno_scrape():
                 except NoSuchElementException:
                     pass
                 else:
-                    dark_blue_btn.click()
-                    rang = "DarkBlue"
+                    try:
+                        dark_blue_btn.click()                    
+                    except ElementClickInterceptedException:
+                        if deny(dark_blue_btn) == 1:
+                            continue
+                    finally:
+                        rang = "DarkBlue"
             else:
-                black_btn.click()
-                rang = "Black"
+                try:
+                    black_btn.click()
+                except ElementClickInterceptedException:
+                    if deny(black_btn) == 1:
+                        continue
+                finally:
+                    rang = "Black"
 
 
             # finding the price and scraping it
@@ -343,7 +394,7 @@ def creat_document():
     if not os.path.exists(path):
         os.makedirs(path)
 
-    document.save(f"{today_date}.docx")
+    # document.save(f"{today_date}.docx")
     # c_pbar.update(50)
 
     doc_file = os.path.join(path, f"{file_name}.docx")
@@ -378,3 +429,4 @@ def main():
 
 
 main()
+
