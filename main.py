@@ -407,26 +407,216 @@ def creat_document():
      
     os.remove(doc_file)
 
+def single_digi_scrape(model):
+    out_off_stock = True
+    rang = False
+    driver.get(digi_urls[model])
+    
+    try:
+        product_title = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='pdp-title']"))
+            )      
+        
 
-def main():
-    techno_start = time.time()    
+        try:
+            driver.find_element(By.XPATH , '//*[@id="__next"]/div[1]/div[3]/div[3]/div[2]/div[2]/div[2]/div[2]/div[4]/div/div/div/button/div[2]/div')
+        except NoSuchElementException:
+            out_off_stock = False
+        else:
+            print(f"{model} **")
+            d_prices.append('**')
+
+        # cheking for the colors available
+        try:
+            black_btn = driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(0, 33, 113);']")
+        except NoSuchElementException:
+            try:
+                dark_blue_btn = driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(33, 33, 33);']")
+            except NoSuchElementException:
+                pass
+            else:
+                rang = "Dark Blue"
+                dark_blue_btn.click()
+        else:
+            rang = "Black"
+            black_btn.click()
+        
+
+        if rang:
+            print(model , rang, end=" ")
+        else:
+            print(model , end=" ")
+        
+        try:
+            price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
+        except NoSuchElementException:
+            try:
+                price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-final"]')
+            except NoSuchElementException:
+                d_prices.append("//")
+                print('//')
+        
+
+        if out_off_stock == False:
+            if isinstance(price , str):
+                d_prices.append(price)
+                print(price)
+            else:
+                final = digits.convert_to_en(price.text)
+                d_prices.append(final)
+                print(final)
+    
+    except TimeoutException:
+        print(f"Failed to find the title for {model} within the given time.")
+        d_prices.append('//')
+
+    # d_pbar.update(1)
+    driver.quit
+
+# loading the page 
+def single_techno_scrape(model):
+    print(model , end="---")
+
+    if techno_urls[model] == r"https://www.google.com": 
+        out_off_stock = True
+        t_prices.append("**")
+        print('**')
+        return
+
+    driver.get(techno_urls[model])
+
+    try:
+        product_title = WebDriverWait(driver, 20).until(
+                EC.presence_of_element_located((By.ID, "pdp_name"))
+            )     
+        
+
+        try:
+            out_off_stock = driver.find_element(By.XPATH , '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[2]/div/div/div/div/div/p[contains (text() , "ناموجود")]')
+        except NoSuchElementException:
+            pass
+        else:
+            t_prices.append("**")
+            print('**')
+            
+
+        rang = 'N/A'
+        out_off_stock = False
+        price = "//"
+
+        
+
+        # cheking for the colors available
+        try:
+            black_btn = driver.find_element(By.CSS_SELECTOR, "[style='background-color:#1a1a1a'")
+        except NoSuchElementException:
+            try:
+                dark_blue_btn = driver.find_element(By.CSS_SELECTOR, "[style='background-color:#00009c']")
+            except NoSuchElementException:
+                pass
+            else:
+                try:
+                    dark_blue_btn.click()                    
+                except ElementClickInterceptedException:
+                    if deny(dark_blue_btn) == 1:
+                        return
+                else:
+                    rang = "DarkBlue"          
+        else:
+            try:
+                black_btn.click()
+            except ElementClickInterceptedException:
+                if deny(black_btn) == 1:
+                    return
+            else:
+                rang = "Black"
+                
+
+
+        # finding the price and scraping it
+        for x in xpath_for_price_techno:
+            try:
+                price = driver.find_element(By.XPATH , xpath_for_price_techno[x])
+            except NoSuchElementException:
+                pass
+            else:
+                break
+                
+        if rang:
+            print(rang, end="")
+
+
+        if out_off_stock == False:
+            if isinstance(price, str):
+                t_prices.append(price)
+                print(price)
+            else:
+                t_prices.append(price.text)
+                print(price.text)
+        
+    except TimeoutException:
+            print(f"Failed to find the title for {model} within the given time.")
+            t_prices.append('//')
+
+
+    # t_pbar.update(1)
+    driver.quit
+
+
+
+
+def list_gen():
+    techno_start = time.time()
     techno_scrape()
     techno_end = time.time()
-    
-    print((techno_end - techno_start) / 60)
+    techno_time = techno_end - techno_start / 60
+    print(f"Digi time = {techno_time}")
     # m_pbar.update(1)
 
     digi_start = time.time()
     digi_scrape()
     digi_end = time.time()
-    
-    print((digi_end - digi_start) / 60)
+    digi_time = digi_end - digi_start / 60
+    print(f"Digi time = {digi_time}")
     # m_pbar.update(1)
     
     creat_document()
     # m_pbar.update(1)
 
+def single_model():
+    model_to_scrape = input("Enter the phone model you want to scrape (e.g., A05-64-4): ")
+    
+    if model_to_scrape not in digi_urls or model_to_scrape not in techno_urls:
+        raise ValueError(f"Model '{model_to_scrape}' not found in URLs dictionaries.")
 
+    techno_start = time.time()
+    single_techno_scrape(model_to_scrape)
+    techno_end = time.time()
+    techno_time = techno_end - techno_start / 60
+    print(f"Digi time = {techno_time}")
+    # m_pbar.update(1)
+
+    digi_start = time.time()
+    single_digi_scrape(model_to_scrape)
+    digi_end = time.time()
+
+    digi_time = digi_end - digi_start / 60
+    print(f"Digi time = {digi_time}")
+    
+    return
+
+
+def main():
+    while True:
+        user_input = input("Do you want to generate the price list for phones...?(Y/N)")
+
+        if user_input == 'Y' or user_input == 'y':
+            list_gen()
+            break
+        elif user_input == 'N' or user_input == 'n':
+            single_model()
+            break
+        else:
+            print("Invalid input. Please enter 'Y' or 'N' \nPlease Try again(Y/N)")
 
 main()
-
