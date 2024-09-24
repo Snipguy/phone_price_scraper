@@ -3,6 +3,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from persian_tools import digits
 from docx import Document
 from docx.shared import Pt
@@ -10,9 +13,7 @@ from docx2pdf import convert
 from persiantools.jdatetime import JalaliDate
 import os
 import time
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import urllib.request
 
 
 chrome_options = Options()
@@ -30,8 +31,10 @@ chrome_options.add_argument("--disable-images")
 # chrome_options.add_argument("user-data-dir=./cache")
 driver = webdriver.Chrome(options=chrome_options)
 
+# logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-logger = logging.getLogger('selenium')
+
+# logger = logging.getLogger('selenium')
 t_prices = []
 d_prices = []
 
@@ -146,6 +149,30 @@ xpath_for_price_techno = {
     '6': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[4]/div/div/div/p[2]'
 }
 
+def check_internet_connection():
+    # testing the connection by pinging google
+    try:
+        urllib.request.urlopen('https://www.google.com/', timeout=5)
+        return True
+    except:
+        return False
+
+def wait_for_connection(max_retries=10, retry_delay=10):
+    # waiting for user to reconnect the connection
+    retries = 0
+    while retries < max_retries:
+        if check_internet_connection():
+            if retries > 0:
+                print("Internet is connected....")
+            return True
+        else:
+            retries += 1
+            print(f"No internet connection. Retrying in {retry_delay} seconds... ({retries}/{max_retries})")
+            time.sleep(retry_delay)
+
+    print("Failed to reconnect after multiple attempts.")
+    return False
+
 
 
 if len(digi_urls) != len(techno_urls):
@@ -173,16 +200,16 @@ def deny(btn):
         try:
             deny_btn.click()
         except Exception as e:
-            if isinstance(e, ElementClickInterceptedException):
-                logger.debug("Debug : ElementClickInterceptedException")
-            else:
-                logger.debug(f"Debug : Exception occurred - {type(e).__name__}")
+            # if isinstance(e, ElementClickInterceptedException):
+            #     logger.debug("Debug : ElementClickInterceptedException")
+            # else:
+            #     logger.debug(f"Debug : Exception occurred - {type(e).__name__}")
             
             try:
                 # Try clicking with XPATH as fallback
                 driver.find_element(By.XPATH, '//*[@id="deny"]').click()
             except Exception as inner_e:
-                logger.debug(f"Debug : Failed to click deny button - {type(inner_e).__name__}")
+                # logger.debug(f"Debug : Failed to click deny button - {type(inner_e).__name__}")
                 t_prices.append('//')
                 print('*/')
                 driver.implicitly_wait(500)
@@ -191,7 +218,7 @@ def deny(btn):
             # Default action if deny button is clicked successfully
             btn.click()
     except TimeoutException:
-        logger.debug("Debug : DenyButtonNotFound [In_Time]")
+        # logger.debug("Debug : DenyButtonNotFound [In_Time]")
         t_prices.append('//')
         print('/*')
         return 1
@@ -204,7 +231,18 @@ def digi_scrape():
     for model , url in digi_urls.items():
         out_off_stock = True
         rang = False
-        driver.get(url)
+
+        if url == r"https://www.google.com": 
+            out_off_stock = True
+            d_prices.append("**")
+            print(model , end="---**")
+            continue
+        
+        if not wait_for_connection(max_retries=10, retry_delay=10):
+            print("Could not establish connection. Exiting program.")
+            return False
+        else:
+            driver.get(url)
         
         try:
             product_title = WebDriverWait(driver, 10).until(
@@ -267,22 +305,27 @@ def digi_scrape():
 
         continue
         # d_pbar.update(1)
-    driver.quit
+    driver.quit()
 
 percent = 100 / len(techno_urls)
 
 # loading the page 
 def techno_scrape():
     for model , url in techno_urls.items():
-        print(model , end="---")
 
         if url == r"https://www.google.com": 
             out_off_stock = True
             t_prices.append("**")
-            print('**')
+            print(model , end="---**")
             continue
     
-        driver.get(url)
+        if not wait_for_connection(max_retries=10, retry_delay=10):
+            print("Could not establish connection. Exiting program.")
+            return False
+        else:
+            driver.get(url)
+
+        print(model , end="---")
 
         try:
             product_title = WebDriverWait(driver, 20).until(
@@ -357,7 +400,7 @@ def techno_scrape():
 
         continue
         # t_pbar.update(1)
-    driver.quit
+    driver.quit()
 
 
 
@@ -410,8 +453,15 @@ def creat_document():
 def single_digi_scrape(model):
     out_off_stock = True
     rang = False
-    driver.get(digi_urls[model])
     
+    if not wait_for_connection(max_retries=10, retry_delay=10):
+        print("Could not establish connection. Exiting program.")
+        return False
+    else:
+        driver.get(digi_urls[model])
+
+
+
     try:
         product_title = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='pdp-title']"))
@@ -471,19 +521,25 @@ def single_digi_scrape(model):
         d_prices.append('//')
 
     # d_pbar.update(1)
-    driver.quit
+    driver.quit()
 
 # loading the page 
 def single_techno_scrape(model):
-    print(model , end="---")
+    
 
     if techno_urls[model] == r"https://www.google.com": 
         out_off_stock = True
         t_prices.append("**")
-        print('**')
+        print(model , end="---**")
         return
 
-    driver.get(techno_urls[model])
+    if not wait_for_connection(max_retries=10, retry_delay=10):
+        print("Could not establish connection. Exiting program.")
+        return False
+    else:
+        driver.get(techno_urls[model])
+
+    print(model , end="---")
 
     try:
         product_title = WebDriverWait(driver, 20).until(
@@ -560,7 +616,7 @@ def single_techno_scrape(model):
 
 
     # t_pbar.update(1)
-    driver.quit
+    driver.quit()
 
 
 
@@ -607,16 +663,20 @@ def single_model():
 
 
 def main():
-    while True:
-        user_input = input("Do you want to generate the price list for phones...?(Y/N)")
+    if not wait_for_connection(max_retries=10, retry_delay=10):
+        print("Could not establish connection. Exiting program.")
+    else:
+        while True:
+            user_input = input("Do you want to generate the price list for phones...?(Y/N)")
 
-        if user_input == 'Y' or user_input == 'y':
-            list_gen()
-            break
-        elif user_input == 'N' or user_input == 'n':
-            single_model()
-            break
-        else:
-            print("Invalid input. Please enter 'Y' or 'N' \nPlease Try again(Y/N)")
+            if user_input == 'Y' or user_input == 'y':
+                list_gen()
+                break
+            elif user_input == 'N' or user_input == 'n':
+                single_model()
+                break
+            else:
+                print("Invalid input. Please enter 'Y' or 'N' \nPlease Try again(Y/N)")
+
 
 main()
