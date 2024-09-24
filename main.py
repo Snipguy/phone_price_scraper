@@ -19,6 +19,8 @@ import urllib.request
 chrome_options = Options()
 chrome_options.add_argument('--headless')
 # chrome_options.add_argument("--window-size=1920,1080")
+chrome_options.add_argument('--ignore-certificate-errors')
+chrome_options.add_argument('--ignore-ssl-errors')
 chrome_options.add_argument("--disable-popup-blocking")
 chrome_options.add_argument("--start-maximized")
 chrome_options.add_argument("--disable-gpu")
@@ -521,7 +523,7 @@ def single_digi_scrape(model):
         d_prices.append('//')
 
     # d_pbar.update(1)
-    driver.quit()
+
 
 # loading the page 
 def single_techno_scrape(model):
@@ -615,8 +617,6 @@ def single_techno_scrape(model):
             t_prices.append('//')
 
 
-    # t_pbar.update(1)
-    driver.quit()
 
 
 
@@ -658,6 +658,8 @@ def single_model():
 
     digi_time = digi_end - digi_start / 60
     print(f"Digi time = {digi_time}")
+
+    driver.quit()
     
     return
 
