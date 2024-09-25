@@ -1,11 +1,11 @@
 
-# TechnoScraper - Price and Availability Scraper for TechnoLife Store
+# Phone Price Scraper - Price and Availability Scraper for TechnoLife and Digikala
 
-TechnoScraper is a Python-based web scraping tool that helps users retrieve price and availability information for phone models from the TechnoLife website. It uses Selenium for automated browser interactions, allowing users to gather data efficiently, even for phones that are out of stock or unavailable.
+Phone Price Scraper is a Python-based web scraping tool that helps users retrieve price and availability information for phone models from the TechnoLife and Digikala website. It uses Selenium for automated browser interactions, allowing users to gather data efficiently, even for phones that are out of stock or unavailable.
 
 ## Features
 
-- **Phone Model Scraping:** Scrapes price and availability information for various phone models from TechnoLife.
+- **Phone Model Scraping:** Scrapes price and availability information for various phone models from TechnoLife & Digikala.
 - **Error Handling:** Automatically detects missing or out-of-stock models and logs them for future reference.
 - **Data Output:** Outputs relevant data, such as prices or stock status, in a user-friendly format.
 - **Easy Customization:** Users can easily adjust scraping targets and error-handling processes.
@@ -14,8 +14,8 @@ TechnoScraper is a Python-based web scraping tool that helps users retrieve pric
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/TechnoScraper.git
-   cd TechnoScraper
+   git clone https://github.com/Snipguy/phone_price_scraper.git
+   cd phone_price_scraper
 2. **Install the required dependencies: Make sure you have Python 3.x installed, then install the required libraries using pip:**
    ```bash
    pip install -r requirements.txt
@@ -25,10 +25,10 @@ TechnoScraper is a Python-based web scraping tool that helps users retrieve pric
 ## Usage
 
 1. Edit the ```phone_models``` list in the script:
-  Add or modify phone models you want to scrape within the ```techno_scraper.py``` file.
+  Add or modify phone models you want to scrape within the ```main.py``` file.
 2. Run the scraper
    ```bash
-   python techno_scraper.py
+   python main.py
 3. Interpreting the output:
   -  Phone models that are available will have their price listed.
   -  Models that are out of stock will be marked with ```**```.
@@ -47,7 +47,7 @@ TechnoScraper is a Python-based web scraping tool that helps users retrieve pric
 ``` plaintext
 TechnoScraper/
 │
-├── techno_scraper.py      # Main scraping script
+├── main.py      # Main scraping script
 ├── requirements.txt       # Python dependencies
 └── README.md              # Project documentation
 ```
@@ -60,8 +60,8 @@ This is my first project, and I’m open to feedback, suggestions, and contribut
 
 If you have any questions or are interested in collaborating, feel free to reach out:
 
-- Email: snipguy.business@gmail.com
-- Telegram: Babak4400
+- Email : snipguy.business@gmail.com
+- Telegram : Babak4400
 
 ## Future Improvements
 
@@ -69,6 +69,3 @@ If you have any questions or are interested in collaborating, feel free to reach
 - Implement a GUI for easier user interaction.
 - Expand error handling and reporting mechanisms.
 
-``` less
-This version includes all the sections and will render correctly when you upload it as your `README.md` file to GitHub.
-```
