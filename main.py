@@ -625,14 +625,14 @@ def list_gen():
     techno_start = time.time()
     techno_scrape()
     techno_end = time.time()
-    techno_time = techno_end - techno_start / 60
+    techno_time = techno_end - techno_start
     print(f"Digi time = {techno_time}")
     # m_pbar.update(1)
 
     digi_start = time.time()
     digi_scrape()
     digi_end = time.time()
-    digi_time = digi_end - digi_start / 60
+    digi_time = digi_end - digi_start
     print(f"Digi time = {digi_time}")
     # m_pbar.update(1)
     
@@ -648,7 +648,7 @@ def single_model():
     techno_start = time.time()
     single_techno_scrape(model_to_scrape)
     techno_end = time.time()
-    techno_time = techno_end - techno_start / 60
+    techno_time = techno_end - techno_start
     print(f"Digi time = {techno_time}")
     # m_pbar.update(1)
 
@@ -656,7 +656,7 @@ def single_model():
     single_digi_scrape(model_to_scrape)
     digi_end = time.time()
 
-    digi_time = digi_end - digi_start / 60
+    digi_time = digi_end - digi_start
     print(f"Digi time = {digi_time}")
 
     driver.quit()
