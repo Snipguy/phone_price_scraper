@@ -262,18 +262,16 @@ def digi_scrape():
 
             # cheking for the colors available
             try:
-                black_btn = driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(0, 33, 113);']")
+                driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(33, 33, 33);']").click()
             except NoSuchElementException:
                 try:
-                    dark_blue_btn = driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(33, 33, 33);']")
+                    driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(0, 33, 113);']").click()
                 except NoSuchElementException:
                     pass
                 else:
                     rang = "Dark Blue"
-                    dark_blue_btn.click()
             else:
                 rang = "Black"
-                black_btn.click()
             
 
             if rang:
@@ -282,10 +280,16 @@ def digi_scrape():
                 print(model , end=" ")
             
             try:
-                price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
+                price_no_discount = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
+                if "line-trough" in price_no_discount.get_attribute("class"):
+                    final_price_list = driver.find_elements(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                    price = final_price_list[1]
+                else:
+                    price = price_no_discount
             except NoSuchElementException:
                 try:
-                    price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                    final_price_list = driver.find_elements(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                    price = final_price_list[1]
                 except NoSuchElementException:
                     d_prices.append("//")
                     print('//')
