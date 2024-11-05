@@ -263,18 +263,16 @@ def digi_scrape():
 
             # cheking for the colors available
             try:
-                black_btn = driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(0, 33, 113);']")
+                driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(33, 33, 33);']").click()
             except NoSuchElementException:
                 try:
-                    dark_blue_btn = driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(33, 33, 33);']")
+                    driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(0, 33, 113);']").click()
                 except NoSuchElementException:
                     pass
                 else:
                     rang = "Dark Blue"
-                    dark_blue_btn.click()
             else:
                 rang = "Black"
-                black_btn.click()
             
 
             if rang:
@@ -283,10 +281,16 @@ def digi_scrape():
                 print(model , end=" ")
             
             try:
-                price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
+                price_no_discount = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
+                if 'line-trough' in price_no_discount.get_attribiuts("class"):
+                    final_price_list = driver.find_elements(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                    price = final_price_list[1]
+                else:
+                    price = price_no_discount
             except NoSuchElementException:
                 try:
-                    price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                    final_price_list = driver.find_elementس(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                    price = final_price_list[1]
                 except NoSuchElementException:
                     d_prices.append("//")
                     print('//')
@@ -622,18 +626,18 @@ def single_techno_scrape(model):
 
 
 def list_gen():
-    techno_start = time.time()
-    techno_scrape()
-    techno_end = time.time()
-    techno_time = techno_end - techno_start
-    print(f"Digi time = {techno_time}")
-    # m_pbar.update(1)
-
     digi_start = time.time()
     digi_scrape()
     digi_end = time.time()
     digi_time = digi_end - digi_start
     print(f"Digi time = {digi_time}")
+    # m_pbar.update(1)
+    
+    techno_start = time.time()
+    techno_scrape()
+    techno_end = time.time()
+    techno_time = techno_end - techno_start
+    print(f"Techno time = {techno_time}")
     # m_pbar.update(1)
     
     creat_document()
@@ -681,4 +685,5 @@ def main():
                 print("Invalid input. Please enter 'Y' or 'N' \nPlease Try again(Y/N)")
 
 
-main()
+if __name__ == "__main__":
+    main()
