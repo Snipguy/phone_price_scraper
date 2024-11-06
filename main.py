@@ -14,6 +14,7 @@ from persiantools.jdatetime import JalaliDate
 import os
 import time
 import urllib.request
+from selenium.common.exceptions import StaleElementReferenceException
 
 
 chrome_options = Options()
@@ -39,6 +40,26 @@ driver = webdriver.Chrome(options=chrome_options)
 # logger = logging.getLogger('selenium')
 t_prices = []
 d_prices = []
+
+def locate_element_with_retry(by, value, retries=3):
+    for attempt in range(retries):
+        try:
+            return driver.find_element(by, value)
+        except StaleElementReferenceException:
+            if attempt < retries - 1:
+                time.sleep(1)  # Optional: short delay before retrying
+            else:
+                raise
+
+def locate_elements_with_retry(by, value, retries=3):
+    for attempt in range(retries):
+        try:
+            return driver.find_elements(by, value)
+        except StaleElementReferenceException:
+            if attempt < retries - 1:
+                time.sleep(1)  # Optional: short delay before retrying
+            else:
+                raise
 
 
 digi_urls = {
@@ -282,15 +303,15 @@ def digi_scrape():
                 print(model , end=" ")
             
             try:
-                price_no_discount = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
+                price_no_discount = locate_element_with_retry(By.CSS_SELECTOR , '[data-testid="price-no-discount"]') #driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
                 if "line-trough" in price_no_discount.get_attribute("class"):
-                    final_price_list = driver.find_elements(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                    final_price_list = locate_elements_with_retry(By.CSS_SELECTOR , '[data-testid="price-final"]') # driver.find_elements(By.CSS_SELECTOR , '[data-testid="price-final"]')
                     price = final_price_list[1]
                 else:
                     price = price_no_discount
             except NoSuchElementException:
                 try:
-                    final_price_list = driver.find_elements(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                    final_price_list = final_price_list = locate_elements_with_retry(By.CSS_SELECTOR , '[data-testid="price-final"]')  # driver.find_elements(By.CSS_SELECTOR , '[data-testid="price-final"]')
                     price = final_price_list[1]
                 except NoSuchElementException:
                     d_prices.append("//")
@@ -341,7 +362,7 @@ def techno_scrape():
             
 
             try:
-                out_off_stock = driver.find_element(By.XPATH , '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[2]/div/div/div/div/div/p[contains (text() , "ناموجود")]')
+                driver.find_element(By.XPATH , '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[2]/div/div/div/div/div/p[contains (text() , "ناموجود")]')
             except NoSuchElementException:
                 pass
             else:
@@ -357,34 +378,27 @@ def techno_scrape():
 
             # cheking for the colors available
             try:
-                black_btn = driver.find_element(By.CSS_SELECTOR, "[style='background-color:#1a1a1a'")
+                driver.find_element(By.CSS_SELECTOR, "[style='background-color:#1a1a1a'").click()
             except NoSuchElementException:
                 try:
-                    dark_blue_btn = driver.find_element(By.CSS_SELECTOR, "[style='background-color:#00009c']")
+                    driver.find_element(By.CSS_SELECTOR, "[style='background-color:#00009c']").click()
                 except NoSuchElementException:
                     pass
-                else:
-                    try:
-                        dark_blue_btn.click()                    
-                    except ElementClickInterceptedException:
-                        if deny(dark_blue_btn) == 1:
-                            continue
-                    finally:
-                        rang = "DarkBlue"
-            else:
-                try:
-                    black_btn.click()
                 except ElementClickInterceptedException:
-                    if deny(black_btn) == 1:
+                    if deny(driver.find_element(By.CSS_SELECTOR, "[style='background-color:#00009c']")) == 1:
                         continue
-                finally:
-                    rang = "Black"
-
+                else:
+                    rang = "DarkBlue"
+            except ElementClickInterceptedException:
+                if deny(driver.find_element(By.CSS_SELECTOR, "[style='background-color:#1a1a1a'")) == 1:
+                    continue
+            else:
+                rang = "Black"
 
             # finding the price and scraping it
             for x in xpath_for_price_techno:
                 try:
-                    price = driver.find_element(By.XPATH , xpath_for_price_techno[x])
+                    price = locate_element_with_retry(By.XPATH , xpath_for_price_techno[x]) # driver.find_element(By.XPATH , xpath_for_price_techno[x])
                 except NoSuchElementException:
                     pass
                 else:
