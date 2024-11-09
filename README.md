@@ -37,8 +37,8 @@ Phone Price Scraper is a Python-based web scraping tool that helps users retriev
 ## Example Output
 
 ``` bash
-  Phone: ModelX, Price: $999, Availability: In Stock
-  Phone: ModelY, Availability: **
+  Phone: ModelX, Color Price, (Availability: In Stock )
+  Phone: ModelY,  ** (Availability: Out Of Stock)
   Phone: ModelZ, Error: //
 ```
 
