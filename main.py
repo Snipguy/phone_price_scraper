@@ -304,11 +304,6 @@ def digi_scrape():
             
             try:
                 price_no_discount = locate_element_with_retry(By.CSS_SELECTOR , '[data-testid="price-no-discount"]') #driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
-                if "line-trough" in price_no_discount.get_attribute("class"):
-                    final_price_list = locate_elements_with_retry(By.CSS_SELECTOR , '[data-testid="price-final"]') # driver.find_elements(By.CSS_SELECTOR , '[data-testid="price-final"]')
-                    price = final_price_list[1]
-                else:
-                    price = price_no_discount
             except NoSuchElementException:
                 try:
                     final_price_list = final_price_list = locate_elements_with_retry(By.CSS_SELECTOR , '[data-testid="price-final"]')  # driver.find_elements(By.CSS_SELECTOR , '[data-testid="price-final"]')
@@ -316,6 +311,12 @@ def digi_scrape():
                 except NoSuchElementException:
                     d_prices.append("//")
                     print('//')
+            else:
+                if "line-trough" in price_no_discount.get_attribute("class"):
+                    final_price_list = locate_elements_with_retry(By.CSS_SELECTOR , '[data-testid="price-final"]') # driver.find_elements(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                    price = final_price_list[1]
+                else:
+                    price = price_no_discount
             
 
             if out_off_stock == False:
