@@ -262,7 +262,7 @@ def digi_scrape():
         
         if not wait_for_connection(max_retries=10, retry_delay=10):
             print("Could not establish connection. Exiting program.")
-            return False
+            return 
         else:
             driver.get(url)
 
