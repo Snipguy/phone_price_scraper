@@ -495,7 +495,6 @@ def single_digi_scrape(model):
             out_off_stock = False
         else:
             print(f"{model} **")
-            d_prices.append('**')
 
         # cheking for the colors available
         try:
@@ -524,34 +523,29 @@ def single_digi_scrape(model):
             try:
                 price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-final"]')
             except NoSuchElementException:
-                d_prices.append("//")
                 print('//')
         
 
         if out_off_stock == False:
             if isinstance(price , str):
-                d_prices.append(price)
                 print(price)
+                return price
             else:
                 final = digits.convert_to_en(price.text)
-                d_prices.append(final)
                 print(final)
+                return final
     
     except TimeoutException:
         print(f"Failed to find the title for {model} within the given time.")
-        d_prices.append('//')
 
     # d_pbar.update(1)
 
 
 # loading the page 
-def single_techno_scrape(model):
-    
-
+def single_techno_scrape(model):    
     if techno_urls[model] == r"https://www.google.com": 
         out_off_stock = True
-        t_prices.append("**")
-        print(model , end="---**")
+        print(model , end="--- **")
         return
 
     if not wait_for_connection(max_retries=10, retry_delay=10):
@@ -625,15 +619,14 @@ def single_techno_scrape(model):
 
         if out_off_stock == False:
             if isinstance(price, str):
-                t_prices.append(price)
                 print(price)
+                return price
             else:
-                t_prices.append(price.text)
                 print(price.text)
+                return price.tex
         
     except TimeoutException:
             print(f"Failed to find the title for {model} within the given time.")
-            t_prices.append('//')
 
 
 
