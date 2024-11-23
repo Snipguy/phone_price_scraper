@@ -623,7 +623,7 @@ def single_techno_scrape(model):
                 return price
             else:
                 print(price.text)
-                return price.tex
+                return price.text
         
     except TimeoutException:
             print(f"Failed to find the title for {model} within the given time.")
