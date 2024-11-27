@@ -1,3 +1,4 @@
+from calendar import month
 import logging
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -13,6 +14,8 @@ import time
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import urllib.request
+from datetime import datetime
 
 
 chrome_options = Options()
@@ -64,7 +67,7 @@ digi_urls = {
     "Note-13-4g-256-8": r'https://www.digikala.com/product/dkp-14272357/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-4g-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/',
     "Note-13-pro-4g-256-8": r'https://www.digikala.com/product/dkp-14271352/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-4g-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/',
     "Note-13-pro-4g-512-12": r'https://www.digikala.com/product/dkp-14271321/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-4g-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-512-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/',
-    "Note-13-pro-5g-512-8": r'https://www.digikala.com/product/dkp-14614745/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-plus-5g-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/',
+    "Note-13-pro-5g-512-12": r'https://www.digikala.com/product/dkp-14176170/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-5g-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-512-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/',
     "Note-13-pro-plus-5g-256-8": r'https://www.digikala.com/product/dkp-14614745/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-plus-5g-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/',
     "Note-13-pro-plus-5g-512-12": r'https://www.digikala.com/product/dkp-14214205/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-plus-5g-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-512-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/',
     "Poco-X6-256-12": r'https://www.digikala.com/product/dkp-14192208/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-poco-x6-5g-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/',
@@ -98,14 +101,14 @@ techno_urls = {
     "S23FE-256-8" : r'https://www.technolife.ir/product-29290/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%D9%8A%D9%84-%D8%B3%D8%A7%D9%85%D8%B3%D9%88%D9%86%DA%AF-%D9%85%D8%AF%D9%84-galaxy-s23-fe-5g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA---%D9%88%DB%8C%D8%AA%D9%86%D8%A7%D9%85',
     "Nokia-105" : r'https://www.technolife.ir/product-52059/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D9%86%D9%88%DA%A9%DB%8C%D8%A7-%D9%85%D8%AF%D9%84-2022-nokia-105-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA---ae',
     "Nokia-106" : r'https://www.technolife.ir/product-24143/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%D9%8A%D9%84-%D9%86%D9%88%DA%A9%D9%8A%D8%A7-%D9%85%D8%AF%D9%84-106-(2018)-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-4-%D9%85%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-4-%D9%85%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA---%D9%85%D9%88%D9%86%D8%AA%D8%A7%DA%98-%D8%A7%DB%8C%D8%B1%D8%A7%D9%86',
-    "Nokia-106-2023" : r'https://www.google.com',
+    "Nokia-106-2023" : r'Not_Found',
     "Nokia-210" : r'https://www.technolife.ir/product-1032/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%D9%8A%D9%84-%D9%86%D9%88%DA%A9%D9%8A%D8%A7-%D9%85%D8%AF%D9%84-210-(2019)-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-16-%D9%85%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA---%D8%B1%D9%85-16-%D9%85%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-',
     # -----------------------------------------------------------------------------------------------------------------------------------------------------------
     "Note-13-4g-256-8": r'https://www.technolife.ir/product-33689/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-4g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA',
     "Note-13-pro-4g-256-8": r'https://www.technolife.ir/product-33679/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-4g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA',
     "Note-13-pro-4g-512-12": r'https://www.technolife.ir/product-33508/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-4g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-512-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA',
     "Note-13-pro-5g-512-12": r'https://www.technolife.ir/product-29522/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-5g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-512-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA',
-    "Note-13-pro-plus-5g-256-8": r"https://www.google.com",
+    "Note-13-pro-plus-5g-256-8": r"Not_Found",
     "Note-13-pro-plus-5g-512-12": r'https://www.technolife.ir/product-34602/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B4%DB%8C%D8%A7%D8%A6%D9%88%D9%85%DB%8C-%D9%85%D8%AF%D9%84-redmi-note-13-pro-plus-5g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-512-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%A8%D9%87-%D9%87%D9%85%D8%B1%D8%A7%D9%87-%D8%B4%D8%A7%D8%B1%DA%98%D8%B1',
     "Poco-X6-256-12": r'https://www.technolife.ir/product-33517/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D9%BE%D9%88%DA%A9%D9%88-%D9%85%D8%AF%D9%84-x6-5g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA',
     "Poco-X6-512-12": r'https://www.technolife.ir/product-32888/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D9%BE%D9%88%DA%A9%D9%88-%D9%85%D8%AF%D9%84-x6-5g-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-512-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA',
@@ -114,6 +117,7 @@ techno_urls = {
     # "": r'',
     # "": r''
 }
+
 
 
 xpath_for_black_techno = [
@@ -146,10 +150,33 @@ xpath_for_price_techno = {
     '6': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[4]/div/div/div/p[2]'
 }
 
+def check_internet_connection():
+    # testing the connection by pinging google
+    try:
+        urllib.request.urlopen('https://www.google.com/', timeout=5)
+        return True
+    except:
+        return False
+
+def wait_for_connection(max_retries=10, retry_delay=10):
+    # waiting for user to reconnect the connection
+    retries = 0
+    while retries < max_retries:
+        if check_internet_connection():
+            if retries > 0:
+                print("Internet is connected....")
+            return True
+        else:
+            retries += 1
+            print(f"No internet connection. Retrying in {retry_delay} seconds... ({retries}/{max_retries})")
+            time.sleep(retry_delay)
+
+    print("Failed to reconnect after multiple attempts.")
+    return False
 
 
 if len(digi_urls) != len(techno_urls):
-    raise Exception("The urls for technolife and digikala are diffrent")
+    raise Exception("The number of urls for technolife and digikala are diffrent")
 else:
     urls_len = len(digi_urls)
     phone_models = []
@@ -163,7 +190,7 @@ else:
 def deny(btn):
     try:
         # Wait for the 'deny' button to appear
-        deny_btn = WebDriverWait(driver, 15).until(
+        deny__btn = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "webpush-onsite"))
         )
         iframe = driver.find_element(By.ID, 'webpush-onsite')
@@ -171,7 +198,8 @@ def deny(btn):
         
         # Try clicking the deny button
         try:
-            deny_btn.click()
+            # click(driver, (By.ID, "webpush-onsite"))
+            deny__btn.click()
         except Exception as e:
             if isinstance(e, ElementClickInterceptedException):
                 logger.debug("Debug : ElementClickInterceptedException")
@@ -204,37 +232,46 @@ def digi_scrape():
     for model , url in digi_urls.items():
         out_off_stock = True
         rang = False
-        driver.get(url)
-        
+
+        if url == r"Not_Found": 
+            out_off_stock = True
+            d_prices.append("**")
+            print('**')
+            continue
+
+
+        if not wait_for_connection(max_retries=10, retry_delay=10):
+            print("Could not establish connection. Exiting program.")
+            return 
+        else:
+            driver.get(url)
+
         try:
             product_title = WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='pdp-title']"))
-                )      
-            
+                )
 
             try:
-                driver.find_element(By.XPATH , '//*[@id="__next"]/div[1]/div[3]/div[3]/div[2]/div[2]/div[2]/div[2]/div[4]/div/div/div/button/div[2]/div')
+                # driver.find_element(By.XPATH , '//*[@id="__next"]/div[1]/div[3]/div[3]/div[2]/div[2]/div[2]/div[2]/div[4]/div/div/div/button/div[2]/div')
+                driver.find_element(By.XPATH , '//*[@id="__next"]/div[1]/div[3]/div[3]/div[2]/div[2]/div[2]/div[1]/div/h1/span')
             except NoSuchElementException:
                 out_off_stock = False
             else:
                 print(f"{model} **")
                 d_prices.append('**')
                 continue
-
             # cheking for the colors available
             try:
-                driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(0, 33, 113);']").click()
+                driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(33, 33, 33);']").click()
             except NoSuchElementException:
                 try:
-                    driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(33, 33, 33);']").click()
+                    driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(0, 33, 113);']").click()
                 except NoSuchElementException:
                     pass
                 else:
                     rang = "Dark Blue"
             else:
                 rang = "Black"
-                
-            
 
             if rang:
                 print(model , rang, end=" ")
@@ -242,13 +279,20 @@ def digi_scrape():
                 print(model , end=" ")
             
             try:
-                price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
+                price_no_discount = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
             except NoSuchElementException:
                 try:
-                    price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                    final_price_list = driver.find_elements(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                    price = final_price_list[1]
                 except NoSuchElementException:
                     d_prices.append("//")
                     print('//')
+            else:
+                if "line-trough" in price_no_discount.get_attribute('class'):
+                    final_price_list = driver.find_elements(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                    price = final_price_list[1]
+                else:
+                    price = price_no_discount
             
 
             if out_off_stock == False:
@@ -259,9 +303,9 @@ def digi_scrape():
                     final = digits.convert_to_en(price.text)
                     d_prices.append(final)
                     print(final)
-        
+
         except TimeoutException:
-            print(f"Failed to find the title for {url} within the given time.")
+            print(f"Failed to find the title for {model} within the given time.")
             d_prices.append('//')
 
         continue
@@ -275,18 +319,22 @@ def techno_scrape():
     for model , url in techno_urls.items():
         print(model , end="---")
 
-        if url == r"https://www.google.com": 
+        if url == r"Not_Found": 
             out_off_stock = True
             t_prices.append("**")
             print('**')
             continue
     
-        driver.get(url)
+        if not wait_for_connection(max_retries=10, retry_delay=10):
+            print("Could not establish connection. Exiting program.")
+            return 
+        else:
+            driver.get(url)
 
         try:
             product_title = WebDriverWait(driver, 20).until(
                     EC.presence_of_element_located((By.ID, "pdp_name"))
-                )     
+                )
             
 
             try:
@@ -387,14 +435,13 @@ def creat_document():
         row_cells[2].text = t_prices[i]
 
     today_date = str(JalaliDate.today())
-    file_name = today_date[5:]
+    now_time = datetime.now().strftime("%H_%M")
+    file_name = f"{today_date[5:]} {now_time}"
     path = today_date[:-3]
+
 
     if not os.path.exists(path):
         os.makedirs(path)
-
-    # document.save(f"{today_date}.docx")
-    # c_pbar.update(50)
 
     doc_file = os.path.join(path, f"{file_name}.docx")
     document.save(doc_file)
@@ -408,18 +455,18 @@ def creat_document():
 
 
 def main():
-    techno_start = time.time()    
-    techno_scrape()
-    techno_end = time.time()
-    
-    print((techno_end - techno_start) / 60)
-    # m_pbar.update(1)
-
     digi_start = time.time()
     digi_scrape()
     digi_end = time.time()
-    
     print((digi_end - digi_start) / 60)
+    # m_pbar.update(1)
+
+    techno_start = time.time()
+    techno_scrape()
+    techno_end = time.time()
+    print((techno_end - techno_start) / 60)
+    
+    
     # m_pbar.update(1)
     
     creat_document()
@@ -428,3 +475,4 @@ def main():
 
 
 main()
+
