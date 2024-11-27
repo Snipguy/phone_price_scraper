@@ -498,19 +498,16 @@ def single_digi_scrape(model):
 
         # cheking for the colors available
         try:
-            black_btn = driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(0, 33, 113);']")
+            driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(0, 33, 113);']").click()
         except NoSuchElementException:
             try:
-                dark_blue_btn = driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(33, 33, 33);']")
+                driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(33, 33, 33);']").click()
             except NoSuchElementException:
                 pass
             else:
                 rang = "Dark Blue"
-                dark_blue_btn.click()
         else:
             rang = "Black"
-            black_btn.click()
-        
 
         if rang:
             print(model , rang, end=" ")
