@@ -15,24 +15,26 @@ import os
 import time
 import urllib.request
 from selenium.common.exceptions import StaleElementReferenceException
+from pathlib import Path
 
 
-chrome_options = Options()
-chrome_options.add_argument('--headless')
-# chrome_options.add_argument("--window-size=1920,1080")
-chrome_options.add_argument('--ignore-certificate-errors')
-chrome_options.add_argument('--ignore-ssl-errors')
-chrome_options.add_argument("--disable-popup-blocking")
-chrome_options.add_argument("--start-maximized")
-chrome_options.add_argument("--disable-gpu")
-chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--disable-extensions")
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--disable-infobars")
-chrome_options.add_argument("--disable-browser-side-navigation")
-chrome_options.add_argument("--disable-images")
-# chrome_options.add_argument("user-data-dir=./cache")
-driver = webdriver.Chrome(options=chrome_options)
+def create_driver():
+    chrome_options = Options()
+    # chrome_options.add_argument('--headless')
+    # chrome_options.add_argument("--window-size=1920,1080")
+    chrome_options.add_argument('--ignore-certificate-errors')
+    chrome_options.add_argument('--ignore-ssl-errors')
+    chrome_options.add_argument("--disable-popup-blocking")
+    chrome_options.add_argument("--start-maximized")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-infobars")
+    chrome_options.add_argument("--disable-browser-side-navigation")
+    chrome_options.add_argument("--disable-images")
+    # chrome_options.add_argument("user-data-dir=./cache")
+    return webdriver.Chrome(options=chrome_options)
 
 # logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -63,7 +65,7 @@ def locate_elements_with_retry(by, value, retries=3):
 
 
 digi_urls = {
-    "iPhone 16 CH-128-4" : "https://www.digikala.com/product/dkp-17986495/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-16-ch-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/?product_id=17986495&variant_id=69248083",  
+    "iPhone 16 CH-128-8" : "https://www.digikala.com/product/dkp-17986495/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-16-ch-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/?product_id=17986495&variant_id=69248083",  
     "iPhone 16 Pro Max ZAA-256-8" : "https://www.digikala.com/product/dkp-17986675/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-16-pro-max-zaa-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/?product_id=17986675&variant_id=81495686",    
     "iPhone 17 CH-256-8" : "https://www.digikala.com/product/dkp-20127115/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-17-ch-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%86%D8%A7%D8%AA-%D8%A7%DA%A9%D8%AA%DB%8C%D9%88/?product_id=20127115&variant_id=75094889",    
     "iPhone 17 Pro ZAA-256-12" : "https://www.digikala.com/product/dkp-20125739/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-17-pro-zaa-%D8%AA%DA%A9-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-esim-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%86%D8%A7%D8%AA-%D8%A7%DA%A9%D8%AA%DB%8C%D9%88/?product_id=20125739&variant_id=80856719",    
@@ -270,7 +272,42 @@ def deny(btn):
         # Switch back to the main content in all cases
         driver.switch_to.default_content()
 
+def click_color(driver):
+    # checking for the colors available
+    try:
+        colors_container = driver.find_element(
+            By.CSS_SELECTOR, 
+            ".gap-5 > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)"
+        )
 
+        child_divs = colors_container.find_elements(By.CSS_SELECTOR, "div[id]")
+
+        numeric_divs = [
+            div for div in child_divs 
+            if div.get_attribute("id") and div.get_attribute("id").isdigit()
+        ]
+
+        if not numeric_divs:
+            print("No numeric IDs found")
+            return False
+        else:
+            lowest_div = min(numeric_divs, key=lambda d: int(d.get_attribute("id")))
+
+            svg_to_click = lowest_div.find_element(By.CSS_SELECTOR, "svg")
+            try:
+                svg_to_click.click()
+            except:
+                ActionChains(driver).move_to_element(svg_to_click).click().perform()
+            
+            rang = "color"
+    except NoSuchElementException:
+        return False
+
+    return rang
+
+def normalize_price(price_text):
+    return digits.convert_to_en(price_text)
+    
 def digi_scrape():
     for model , url in digi_urls.items():
         out_off_stock = True
@@ -290,7 +327,7 @@ def digi_scrape():
         try:
             product_title = WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='pdp-title']"))
-                )      
+               )      
             
 
             try:
@@ -304,19 +341,10 @@ def digi_scrape():
                 d_prices.append('**')
                 continue
 
-            # cheking for the colors available
-            try:
-                driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(33, 33, 33);']").click()
-            except NoSuchElementException:
-                try:
-                    driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(0, 33, 113);']").click()
-                except NoSuchElementException:
-                    pass
-                else:
-                    rang = "Dark Blue"
+            if click_color(driver):
+                rang = "color"
             else:
-                rang = "Black"
-            
+                out_off_stock= True
 
             if rang:
                 print(model , rang, end=" ")
@@ -324,16 +352,18 @@ def digi_scrape():
                 print(model , end=" ")
             
             try:
-                price_no_discount = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
+                price_no_discount = driver.find_element(By.CSS_SELECTOR , "div[data-theme-animation='price-container'] [data-testid='price-no-discount']")
                 if 'line-trough' in price_no_discount.get_attribiuts("class"):
-                    final_price_list = driver.find_elements(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                    final_price_list = driver.find_element(By.CSS_SELECTOR , "div[data-theme-animation='price-container'] [data-testid='price-final']")
+
                     price = final_price_list[1]
                 else:
                     price = price_no_discount
             except NoSuchElementException:
                 try:
-                    final_price_list = driver.find_elementس(By.CSS_SELECTOR , '[data-testid="price-final"]')
-                    price = final_price_list[1]
+                    final_price_list = driver.find_element(By.CSS_SELECTOR , "div[data-theme-animation='price-container'] [data-testid='price-final']")
+
+                    price = final_price_list
                 except NoSuchElementException:
                     d_prices.append("//")
                     print('//')
@@ -344,7 +374,7 @@ def digi_scrape():
                     d_prices.append(price)
                     print(price)
                 else:
-                    final = digits.convert_to_en(price.text)
+                    final = normalize_price(price.text)
                     d_prices.append(final)
                     print(final)
         
@@ -446,7 +476,7 @@ def techno_scrape():
 
 
 
-def creat_document():
+def create_document(phone_models, d_prices, t_prices, output_path):
     # creating the document and the row
     document = Document()
     table = document.add_table(rows=1, cols=3)
@@ -466,30 +496,28 @@ def creat_document():
     hdr_cells[1].text = 'Digikala'
     hdr_cells[2].text = 'Technolife'
 
-    for i in range(urls_len):
+    for phone, digi_price, techno_price in zip(
+        phone_models,
+        d_prices,
+        t_prices
+    ):
         row_cells = table.add_row().cells
-        row_cells[0].paragraphs[0].add_run(phone_models[i]).bold = True
-        row_cells[1].text = d_prices[i]
-        row_cells[2].text = t_prices[i]
+        row_cells[0].paragraphs[0].add_run(phone).bold = True
+        row_cells[1].text = digi_price
+        row_cells[2].text = techno_price
 
-    today_date = str(JalaliDate.today())
-    file_name = today_date[5:]
-    path = today_date[:-3]
-
-    if not os.path.exists(path):
-        os.makedirs(path)
 
     # document.save(f"{today_date}.docx")
     # c_pbar.update(50)
 
-    doc_file = os.path.join(path, f"{file_name}.docx")
+    # Save temporary DOCX
+    doc_file = str(output_path.with_suffix(".docx"))
     document.save(doc_file)
 
-    # Convert the document to PDF
-    pdf_file = os.path.join(path, f'{file_name}.pdf')
+    # Convert DOCX to PDF
+    pdf_file = str(output_path.with_suffix(".pdf"))
     convert(doc_file, pdf_file)
 
-     
     os.remove(doc_file)
 
 def single_digi_scrape(model):
@@ -647,34 +675,34 @@ def single_techno_scrape(model):
             print(f"Failed to find the title for {model} within the given time.")
 
 
-
-
-
-
 def list_gen():
     digi_start = time.time()
     digi_scrape()
     digi_end = time.time()
     digi_time = digi_end - digi_start
     print(f"Digi time = {digi_time}")
-    # m_pbar.update(1)
 
     techno_start = time.time()
     techno_scrape()
     techno_end = time.time()
     techno_time = techno_end - techno_start
-    print(f"Digi time = {techno_time}")
-    # m_pbar.update(1)
-    
-    techno_start = time.time()
-    techno_scrape()
-    techno_end = time.time()
-    techno_time = techno_end - techno_start
     print(f"Techno time = {techno_time}")
-    # m_pbar.update(1)
-    
-    creat_document()
-    # m_pbar.update(1)
+
+    today_date = str(JalaliDate.today())
+    file_name = today_date[5:]
+    output_dir = Path(today_date[:-3])
+
+    if not output_dir.exists():
+        output_dir.mkdir(parents=True)
+
+    output_path = output_dir / file_name
+
+    create_document(
+        phone_models,
+        d_prices,
+        t_prices,
+        output_path
+    )
 
 def single_model():
     model_to_scrape = input("Enter the phone model you want to scrape (e.g., A05-64-4): ")
@@ -707,7 +735,7 @@ def main():
     else:
         while True:
             user_input = input("Do you want to generate the price list for phones...?(Y/N)")
-
+            driver = create_driver()
             if user_input == 'Y' or user_input == 'y':
                 list_gen()
                 break
