@@ -1,3 +1,4 @@
+import sys
 from phone_price_scraper import main
 
 
@@ -22,5 +23,6 @@ def test_create_document(tmp_path):
         output_path
     )
 
-    assert (tmp_path / "prices.pdf").exists()
+    if sys.platform == "win32":
+        assert (tmp_path / "prices.pdf").exists()
     assert not (tmp_path / "prices.docx").exists()

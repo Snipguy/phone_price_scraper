@@ -520,11 +520,16 @@ def create_document(phone_models, d_prices, t_prices, output_path):
     doc_file = str(output_path.with_suffix(".docx"))
     document.save(doc_file)
 
+
+
+    convert_to_pdf(doc_file, output_path)
+
+    os.remove(doc_file)
+
+def convert_to_pdf(doc_file, output_path):
     # Convert DOCX to PDF
     pdf_file = str(output_path.with_suffix(".pdf"))
     convert(doc_file, pdf_file)
-
-    os.remove(doc_file)
 
 def single_digi_scrape(model):
     out_off_stock = True
