@@ -1,4 +1,4 @@
-import main
+from phone_price_scraper import main
 
 
 

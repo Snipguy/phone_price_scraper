@@ -18,55 +18,6 @@ from selenium.common.exceptions import StaleElementReferenceException
 from pathlib import Path
 
 
-def create_driver():
-    chrome_options = Options()
-    # chrome_options.add_argument('--headless')
-    # chrome_options.add_argument("--window-size=1920,1080")
-    chrome_options.add_argument('--ignore-certificate-errors')
-    chrome_options.add_argument('--ignore-ssl-errors')
-    chrome_options.add_argument("--disable-popup-blocking")
-    chrome_options.add_argument("--start-maximized")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-extensions")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--disable-infobars")
-    chrome_options.add_argument("--disable-browser-side-navigation")
-    chrome_options.add_argument("--disable-images")
-    # chrome_options.add_argument("user-data-dir=./cache")
-    return webdriver.Chrome(options=chrome_options)
-
-if __name__ == "__main__":
-    driver = create_driver()
-
-# logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-
-
-# logger = logging.getLogger('selenium')
-t_prices = []
-d_prices = []
-
-def locate_element_with_retry(driver, by, value, retries=3):
-    for attempt in range(retries):
-        try:
-            return driver.find_element(by, value)
-        except StaleElementReferenceException:
-            if attempt < retries - 1:
-                time.sleep(1)  # Optional: short delay before retrying
-            else:
-                raise
-
-def locate_elements_with_retry(driver, by, value, retries=3):
-    for attempt in range(retries):
-        try:
-            return driver.find_elements(by, value)
-        except StaleElementReferenceException:
-            if attempt < retries - 1:
-                time.sleep(1)  # Optional: short delay before retrying
-            else:
-                raise
-
-
 digi_urls = {
     "iPhone 16 CH-128-8" : "https://www.digikala.com/product/dkp-17986495/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-16-ch-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/?product_id=17986495&variant_id=69248083",  
     "iPhone 16 Pro Max ZAA-256-8" : "https://www.digikala.com/product/dkp-17986675/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-16-pro-max-zaa-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/?product_id=17986675&variant_id=81495686",    
@@ -198,6 +149,71 @@ xpath_for_price_techno = {
     '6': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[4]/div/div/div/p[2]'
 }
 
+
+def create_driver():
+    chrome_options = Options()
+    # chrome_options.add_argument('--headless')
+    # chrome_options.add_argument("--window-size=1920,1080")
+    chrome_options.add_argument('--ignore-certificate-errors')
+    chrome_options.add_argument('--ignore-ssl-errors')
+    chrome_options.add_argument("--disable-popup-blocking")
+    chrome_options.add_argument("--start-maximized")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-infobars")
+    chrome_options.add_argument("--disable-browser-side-navigation")
+    chrome_options.add_argument("--disable-images")
+    # chrome_options.add_argument("user-data-dir=./cache")
+    return webdriver.Chrome(options=chrome_options)
+
+if __name__ == "__main__":
+    if len(digi_urls) != len(techno_urls):
+        raise Exception("The urls for technolife and digikala are diffrent")
+    else:
+        urls_len = len(digi_urls)
+        phone_models = []
+        for key in digi_urls.keys():
+            phone_models.append(key)
+        # d_pbar = tqdm(total=urls_len)
+        # t_pbar = tqdm(total=urls_len)
+        # c_pbar = tqdm(total=100)
+        # m_pbar = tqdm(total=3)
+
+    t_prices = []
+    d_prices = []
+
+
+    driver = create_driver()
+
+# logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+# logger = logging.getLogger('selenium')
+
+def locate_element_with_retry(driver, by, value, retries=3):
+    for attempt in range(retries):
+        try:
+            return driver.find_element(by, value)
+        except StaleElementReferenceException:
+            if attempt < retries - 1:
+                time.sleep(1)  # Optional: short delay before retrying
+            else:
+                raise
+
+def locate_elements_with_retry(driver, by, value, retries=3):
+    for attempt in range(retries):
+        try:
+            return driver.find_elements(by, value)
+        except StaleElementReferenceException:
+            if attempt < retries - 1:
+                time.sleep(1)  # Optional: short delay before retrying
+            else:
+                raise
+
+
+
 def check_internet_connection():
     # testing the connection by pinging google
     try:
@@ -224,17 +240,7 @@ def wait_for_connection(max_retries=10, retry_delay=10):
 
 
 
-if len(digi_urls) != len(techno_urls):
-    raise Exception("The urls for technolife and digikala are diffrent")
-else:
-    urls_len = len(digi_urls)
-    phone_models = []
-    for key in digi_urls.keys():
-        phone_models.append(key)
-    # d_pbar = tqdm(total=urls_len)
-    # t_pbar = tqdm(total=urls_len)
-    # c_pbar = tqdm(total=100)
-    # m_pbar = tqdm(total=3)
+
 
 def deny(btn):
     try:
@@ -308,7 +314,7 @@ def click_color(driver):
 def normalize_price(price_text):
     return digits.convert_to_en(price_text)
     
-def digi_scrape():
+def digi_scrape(driver, digi_urls):
     for model , url in digi_urls.items():
         out_off_stock = True
         rang = False
@@ -678,7 +684,7 @@ def single_techno_scrape(model):
 def list_gen():
     try:
         digi_start = time.time()
-        digi_scrape()
+        digi_scrape(driver, digi_urls)
         digi_end = time.time()
         digi_time = digi_end - digi_start
         print(f"Digi time = {digi_time}")
