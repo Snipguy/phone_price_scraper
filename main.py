@@ -36,6 +36,9 @@ def create_driver():
     # chrome_options.add_argument("user-data-dir=./cache")
     return webdriver.Chrome(options=chrome_options)
 
+if __name__ == "__main__":
+    driver = create_driver()
+
 # logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
@@ -43,7 +46,7 @@ def create_driver():
 t_prices = []
 d_prices = []
 
-def locate_element_with_retry(by, value, retries=3):
+def locate_element_with_retry(driver, by, value, retries=3):
     for attempt in range(retries):
         try:
             return driver.find_element(by, value)
@@ -53,7 +56,7 @@ def locate_element_with_retry(by, value, retries=3):
             else:
                 raise
 
-def locate_elements_with_retry(by, value, retries=3):
+def locate_elements_with_retry(driver, by, value, retries=3):
     for attempt in range(retries):
         try:
             return driver.find_elements(by, value)
@@ -294,10 +297,7 @@ def click_color(driver):
             lowest_div = min(numeric_divs, key=lambda d: int(d.get_attribute("id")))
 
             svg_to_click = lowest_div.find_element(By.CSS_SELECTOR, "svg")
-            try:
-                svg_to_click.click()
-            except:
-                ActionChains(driver).move_to_element(svg_to_click).click().perform()
+            svg_to_click.click()
             
             rang = "color"
     except NoSuchElementException:
@@ -313,7 +313,7 @@ def digi_scrape():
         out_off_stock = True
         rang = False
 
-        if url == r"https://www.google.com": 
+        if url == r"": 
             d_prices.append("**")
             print(model , end="---**")
             continue
@@ -353,10 +353,10 @@ def digi_scrape():
             
             try:
                 price_no_discount = driver.find_element(By.CSS_SELECTOR , "div[data-theme-animation='price-container'] [data-testid='price-no-discount']")
-                if 'line-trough' in price_no_discount.get_attribiuts("class"):
+                if 'line-trough' in price_no_discount.get_attribute("class"):
                     final_price_list = driver.find_element(By.CSS_SELECTOR , "div[data-theme-animation='price-container'] [data-testid='price-final']")
 
-                    price = final_price_list[1]
+                    price = final_price_list
                 else:
                     price = price_no_discount
             except NoSuchElementException:
@@ -384,7 +384,7 @@ def digi_scrape():
 
         continue
         # d_pbar.update(1)
-    driver.quit()
+
 
 percent = 100 / len(techno_urls)
 
@@ -392,7 +392,7 @@ percent = 100 / len(techno_urls)
 def techno_scrape():
     for model , url in techno_urls.items():
 
-        if url == r"https://www.google.com": 
+        if url == r"": 
             out_off_stock = True
             t_prices.append("**")
             print(model , end="---**")
@@ -449,7 +449,7 @@ def techno_scrape():
             # finding the price and scraping it
             for x in xpath_for_price_techno:
                 try:
-                    price = locate_element_with_retry(By.XPATH , xpath_for_price_techno[x]) # driver.find_element(By.XPATH , xpath_for_price_techno[x])
+                    price = locate_element_with_retry(driver, By.XPATH , xpath_for_price_techno[x]) # driver.find_element(By.XPATH , xpath_for_price_techno[x])
                 except NoSuchElementException:
                     pass
                 else:
@@ -472,7 +472,7 @@ def techno_scrape():
 
         continue
         # t_pbar.update(1)
-    driver.quit()
+
 
 
 
@@ -676,17 +676,21 @@ def single_techno_scrape(model):
 
 
 def list_gen():
-    digi_start = time.time()
-    digi_scrape()
-    digi_end = time.time()
-    digi_time = digi_end - digi_start
-    print(f"Digi time = {digi_time}")
+    try:
+        digi_start = time.time()
+        digi_scrape()
+        digi_end = time.time()
+        digi_time = digi_end - digi_start
+        print(f"Digi time = {digi_time}")
 
-    techno_start = time.time()
-    techno_scrape()
-    techno_end = time.time()
-    techno_time = techno_end - techno_start
-    print(f"Techno time = {techno_time}")
+        techno_start = time.time()
+        techno_scrape()
+        techno_end = time.time()
+        techno_time = techno_end - techno_start
+        print(f"Techno time = {techno_time}")
+    finally:
+        driver.quit()
+
 
     today_date = str(JalaliDate.today())
     file_name = today_date[5:]
