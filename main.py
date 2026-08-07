@@ -11,7 +11,7 @@ from docx import Document
 from docx.shared import Pt
 from docx2pdf import convert
 from persiantools.jdatetime import JalaliDate
-import os
+import os, sys
 import time
 import urllib.request
 from selenium.common.exceptions import StaleElementReferenceException
@@ -521,8 +521,8 @@ def create_document(phone_models, d_prices, t_prices, output_path):
     document.save(doc_file)
 
 
-
-    convert_to_pdf(doc_file, output_path)
+    if sys.platform == "win32":
+        convert_to_pdf(doc_file, output_path)
 
     os.remove(doc_file)
 
