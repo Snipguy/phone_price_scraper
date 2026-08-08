@@ -141,12 +141,14 @@ xpath_for_white = [
 
 
 xpath_for_price_techno = {
-    '1': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[4]/div/div/div/p',
-    '2': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[2]/div[2]/div/div/p[2]',
-    '3': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[2]/div[2]/div/div/p',
-    '4': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[2]/div/div/div/p',
-    '5': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[2]/div/div/div/p[2]',
-    '6': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[4]/div/div/div/p[2]'
+    '1': '/html/body/div[1]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[3]/div[2]/div/div/p[2]',
+    '2': '/html/body/div[1]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[5]/div[2]/div/div/p',
+    '3': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[4]/div/div/div/p',
+    '4': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[2]/div[2]/div/div/p[2]',
+    '5': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[2]/div[2]/div/div/p',
+    '6': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[2]/div/div/div/p',
+    '7': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[2]/div/div/div/p[2]',
+    '8': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[4]/div/div/div/p[2]'
 }
 
 
@@ -282,34 +284,37 @@ def deny(btn):
         driver.switch_to.default_content()
 
 def click_color(driver):
-    # checking for the colors available
     try:
         colors_container = driver.find_element(
-            By.CSS_SELECTOR, 
+            By.CSS_SELECTOR,
             ".gap-5 > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)"
         )
 
-        child_divs = colors_container.find_elements(By.CSS_SELECTOR, "div[id]")
+        child_divs = colors_container.find_elements(
+            By.CSS_SELECTOR,
+            "div[id]"
+        )
 
         numeric_divs = [
-            div for div in child_divs 
-            if div.get_attribute("id") and div.get_attribute("id").isdigit()
+            div for div in child_divs
+            if (div_id := div.get_attribute("id")).isdigit()
         ]
 
         if not numeric_divs:
             print("No numeric IDs found")
             return False
-        else:
-            lowest_div = min(numeric_divs, key=lambda d: int(d.get_attribute("id")))
 
-            svg_to_click = lowest_div.find_element(By.CSS_SELECTOR, "svg")
-            svg_to_click.click()
-            
-            rang = "color"
+        lowest_div = min(
+            numeric_divs,
+            key=lambda div: int(div.get_attribute("id"))
+        )
+
+        logging.debug("Clicking the color with the lowest ID number...")
+        lowest_div.click()
+
+        return "color"
     except NoSuchElementException:
         return False
-
-    return rang
 
 def normalize_price(price_text):
     return digits.convert_to_en(price_text)
@@ -337,9 +342,7 @@ def digi_scrape(driver, digi_urls):
             
 
             try:
-                # driver.find_element(By.XPATH , '//*[@id="__next"]/div[1]/div[3]/div[3]/div[2]/div[2]/div[2]/div[2]/div[4]/div/div/div/button/div[2]/div')
-                driver.find_element(By.XPATH , '//*[@id="__next"]/div[1]/div[3]/div[3]/div[2]/div[2]/div[2]/div[1]/div/h1/span')
-
+                driver.find_element(By.XPATH , '/html/body/div/div[1]/div[3]/main/div[2]/div[2]/div[2]/div[1]/div/h1/span')
             except NoSuchElementException:
                 out_off_stock = False
             else:
@@ -452,6 +455,12 @@ def techno_scrape():
             else:
                 rang = "Black"
 
+            # Removing The inserunce Option
+            try:
+                driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[1]/div/div[2]/button").cliclk()
+            except:
+                print(f"Removing Inserunce Failed for {model}")
+            
             # finding the price and scraping it
             for x in xpath_for_price_techno:
                 try:
@@ -541,8 +550,6 @@ def single_digi_scrape(model):
     else:
         driver.get(digi_urls[model])
 
-
-
     try:
         product_title = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='pdp-title']"))
@@ -550,24 +557,18 @@ def single_digi_scrape(model):
         
 
         try:
-            driver.find_element(By.XPATH , '//*[@id="__next"]/div[1]/div[3]/div[3]/div[2]/div[2]/div[2]/div[2]/div[4]/div/div/div/button/div[2]/div')
+            driver.find_element(By.XPATH , '/html/body/div/div[1]/div[3]/main/div[2]/div[2]/div[2]/div[1]/div/h1/span')
         except NoSuchElementException:
             out_off_stock = False
         else:
             print(f"{model} **")
 
+
         # cheking for the colors available
-        try:
-            driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(0, 33, 113);']").click()
-        except NoSuchElementException:
-            try:
-                driver.find_element(By.CSS_SELECTOR, "[style='background: rgb(33, 33, 33);']").click()
-            except NoSuchElementException:
-                pass
-            else:
-                rang = "Dark Blue"
+        if click_color(driver):
+            rang = "color"
         else:
-            rang = "Black"
+            out_off_stock= True
 
         if rang:
             print(model , rang, end=" ")
@@ -659,8 +660,13 @@ def single_techno_scrape(model):
             else:
                 rang = "Black"
                 
+        # Removing The inserunce Option
+        try:
+            driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[1]/div/div[2]/button").cliclk()
+        except:
+            print(f"Removing Inserunce Failed for {model} with exception {Exception}")
 
-
+            
         # finding the price and scraping it
         for x in xpath_for_price_techno:
             try:
@@ -688,11 +694,11 @@ def single_techno_scrape(model):
 
 def list_gen():
     try:
-        digi_start = time.time()
-        digi_scrape(driver, digi_urls)
-        digi_end = time.time()
-        digi_time = digi_end - digi_start
-        print(f"Digi time = {digi_time}")
+        # digi_start = time.time()
+        # digi_scrape(driver, digi_urls)
+        # digi_end = time.time()
+        # digi_time = digi_end - digi_start
+        # print(f"Digi time = {digi_time}")
 
         techno_start = time.time()
         techno_scrape()
