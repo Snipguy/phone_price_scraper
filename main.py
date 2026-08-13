@@ -26,7 +26,6 @@ digi_urls = {
     "iPhone 17 Pro Max ZAA-256-12" : "https://www.digikala.com/product/dkp-20481188/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-17-pro-max-zaa-%D8%AA%DA%A9-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-esim-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%86%D8%A7%D8%AA-%D8%A7%DA%A9%D8%AA%DB%8C%D9%88/?product_id=20481188&variant_id=73071289",
     "iPhone 17 Pro Max ZAA-512-12" : "https://www.digikala.com/product/dkp-20125788/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-17-pro-max-zaa-%D8%AA%DA%A9-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-esim-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-512-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%86%D8%A7%D8%AA-%D8%A7%DA%A9%D8%AA%DB%8C%D9%88/?product_id=20125788&variant_id=73071326",
 
-
     # -----------------------------------------------------------------------------------------------------------------------------------------------------------
         
     "A07-64-4": "https://www.digikala.com/product/dkp-20109389/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B3%D8%A7%D9%85%D8%B3%D9%88%D9%86%DA%AF-%D9%85%D8%AF%D9%84-galaxy-a07-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-64-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-4-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/?product_id=20109389&variant_id=74547381",
@@ -35,8 +34,8 @@ digi_urls = {
     "A17-128-4": "https://www.digikala.com/product/dkp-20490694/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B3%D8%A7%D9%85%D8%B3%D9%88%D9%86%DA%AF-%D9%85%D8%AF%D9%84-galaxy-a17-4g-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-4-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88%DB%8C%D8%AA%D9%86%D8%A7%D9%85/?product_id=20490694&variant_id=74561057",
     "A17-128-6": "https://www.digikala.com/product/dkp-20490714/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B3%D8%A7%D9%85%D8%B3%D9%88%D9%86%DA%AF-%D9%85%D8%AF%D9%84-galaxy-a17-4g-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-6-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88%DB%8C%D8%AA%D9%86%D8%A7%D9%85/?product_id=20490714&variant_id=74561179",
     "A17-256-8": "https://www.digikala.com/product/dkp-20490734/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B3%D8%A7%D9%85%D8%B3%D9%88%D9%86%DA%AF-%D9%85%D8%AF%D9%84-galaxy-a17-4g-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88%DB%8C%D8%AA%D9%86%D8%A7%D9%85/?product_id=20490734&variant_id=74561129",
-    "A27-128-6": "",
-    "A27-256-8": "",
+    "A27-128-8": "https://www.digikala.com/product/dkp-22118518/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B3%D8%A7%D9%85%D8%B3%D9%88%D9%86%DA%AF-%D9%85%D8%AF%D9%84-galaxy-a27-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88%DB%8C%D8%AA%D9%86%D8%A7%D9%85/",
+    "A27-256-8": "https://www.digikala.com/product/dkp-22109774/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B3%D8%A7%D9%85%D8%B3%D9%88%D9%86%DA%AF-%D9%85%D8%AF%D9%84-galaxy-a27-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85-%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/",
     "A37-128-8": "https://www.digikala.com/product/dkp-21670148/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B3%D8%A7%D9%85%D8%B3%D9%88%D9%86%DA%AF-%D9%85%D8%AF%D9%84-galaxy-a37-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/?product_id=21670148&variant_id=81408274",
     "A37-256-8": "https://www.digikala.com/product/dkp-21670150/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B3%D8%A7%D9%85%D8%B3%D9%88%D9%86%DA%AF-%D9%85%D8%AF%D9%84-galaxy-a37-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/?product_id=21670150&variant_id=81170454",
     "A57-128-8": "https://www.digikala.com/product/dkp-21660233/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%B3%D8%A7%D9%85%D8%B3%D9%88%D9%86%DA%AF-%D9%85%D8%AF%D9%84-galaxy-a57-%D8%AF%D9%88-%D8%B3%DB%8C%D9%85%DA%A9%D8%A7%D8%B1%D8%AA-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D9%88-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA/?product_id=21660233&variant_id=81408457",
@@ -70,7 +69,7 @@ digi_urls = {
 
 
 techno_urls = {
-    "iPhone 16 CH-128-4" : "https://www.technolife.com/product-69610/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-16-ch-a-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D8%AC%DB%8C%D8%B3%D8%AA%D8%B1-%D8%B4%D8%AF%D9%87",
+    "iPhone 16 CH-128-8" : "https://www.technolife.com/product-69610/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-16-ch-a-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-128-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D8%AC%DB%8C%D8%B3%D8%AA%D8%B1-%D8%B4%D8%AF%D9%87",
     "iPhone 16 Pro Max ZAA-256-8" : "https://www.technolife.com/product-59177/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%D9%84-iphone-16-pro-max-za-a-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D8%AC%DB%8C%D8%B3%D8%AA%D8%B1-%D8%B4%D8%AF%D9%87",  
     "iPhone 17 CH-256-8" : "https://www.technolife.com/product-165487/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-%D9%85%D8%AF%E2%80%8C%D9%84-iphone-17-ch-a-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-8-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA---not-active-%D8%B1%D8%AC%DB%8C%D8%B3%D8%AA%D8%B1-%D8%B4%D8%AF%D9%87",
     "iPhone 17 Pro ZAA-256-12" : "https://www.technolife.com/product-149692/%DA%AF%D9%88%D8%B4%DB%8C-%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84-%D8%A7%D9%BE%D9%84-iphone-17-pro-za-a-%D8%B8%D8%B1%D9%81%DB%8C%D8%AA-256-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA-%D8%B1%D9%85-12-%DA%AF%DB%8C%DA%AF%D8%A7%D8%A8%D8%A7%DB%8C%D8%AA---not-active-%D8%B1%D8%AC%DB%8C%D8%B3%D8%AA%D8%B1-%D8%B4%D8%AF%D9%87",
@@ -141,14 +140,16 @@ xpath_for_white = [
 
 
 xpath_for_price_techno = {
-    '1': '/html/body/div[1]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[3]/div[2]/div/div/p[2]',
-    '2': '/html/body/div[1]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[5]/div[2]/div/div/p',
-    '3': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[4]/div/div/div/p',
-    '4': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[2]/div[2]/div/div/p[2]',
-    '5': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[2]/div[2]/div/div/p',
-    '6': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[2]/div/div/div/p',
-    '7': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[2]/div/div/div/p[2]',
-    '8': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[4]/div/div/div/p[2]'
+    '1': '/html/body/div[1]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[5]/div[2]/div/div/p',
+    '2': '/html/body/div[1]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[3]/div[2]/div/div/p[2]',
+    '3': '/html/body/div[1]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[5]/div[2]/div/div/p',
+    '4': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[4]/div/div/div/p',
+    '5': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[2]/div[2]/div/div/p[2]',
+    '6': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[2]/div[2]/div/div/p',
+    '7': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[2]/div/div/div/p',
+    '8': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[2]/div/div/div/p[2]',
+    '9': '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div[2]/div[3]/div[4]/div/div/div/p[2]',
+    '10': '/html/body/div[1]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[3]/div[3]/div/div/div/p'
 }
 
 
@@ -167,7 +168,11 @@ def create_driver():
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-browser-side-navigation")
     chrome_options.add_argument("--disable-images")
-    # chrome_options.add_argument("user-data-dir=./cache")
+    chrome_options.add_argument("--log-level=3")
+    chrome_options.add_argument("--disable-logging")
+    chrome_options.add_argument("--disable-software-rasterizer")
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    chrome_options.page_load_strategy = "eager"
     return webdriver.Chrome(options=chrome_options)
 
 if __name__ == "__main__":
@@ -186,8 +191,6 @@ if __name__ == "__main__":
     t_prices = []
     d_prices = []
 
-
-    driver = create_driver()
 
 # logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -241,10 +244,7 @@ def wait_for_connection(max_retries=10, retry_delay=10):
     return False
 
 
-
-
-
-def deny(btn):
+def deny(driver, btn):
     try:
         # Wait for the 'deny' button to appear
         deny_btn = WebDriverWait(driver, 15).until(
@@ -321,12 +321,12 @@ def normalize_price(price_text):
     
 def digi_scrape(driver, digi_urls):
     for model , url in digi_urls.items():
-        out_off_stock = True
-        rang = False
+        out_of_stock = True
+        # rang = False
 
         if url == r"": 
             d_prices.append("**")
-            print(model , end="---**")
+            print(model , end=" **")
             continue
         
         if not wait_for_connection(max_retries=10, retry_delay=10):
@@ -336,49 +336,50 @@ def digi_scrape(driver, digi_urls):
             driver.get(url)
 
         try:
-            product_title = WebDriverWait(driver, 10).until(
+            WebDriverWait(driver, 15).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='pdp-title']"))
-               )      
+                )
             
-
+            # Trying to Finding Out of stock text
             try:
-                driver.find_element(By.XPATH , '/html/body/div/div[1]/div[3]/main/div[2]/div[2]/div[2]/div[1]/div/h1/span')
+                WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located(
+                        (By.CSS_SELECTOR, "h1 span.text-h4.text-primary-700")
+                    )
+                )
             except NoSuchElementException:
-                out_off_stock = False
+                out_of_stock = False
             else:
                 print(f"{model} **")
                 d_prices.append('**')
                 continue
 
             if click_color(driver):
-                rang = "color"
-            else:
-                out_off_stock= True
+                Color_Clicked = True
 
-            if rang:
-                print(model , rang, end=" ")
-            else:
-                print(model , end=" ")
+
+            # if rang:
+            #     print(model , rang, end=" ")
+            # else:
+            #     print(model , end=" ")
             
             try:
                 price_no_discount = driver.find_element(By.CSS_SELECTOR , "div[data-theme-animation='price-container'] [data-testid='price-no-discount']")
                 if 'line-trough' in price_no_discount.get_attribute("class"):
                     final_price_list = driver.find_element(By.CSS_SELECTOR , "div[data-theme-animation='price-container'] [data-testid='price-final']")
-
                     price = final_price_list
                 else:
                     price = price_no_discount
             except NoSuchElementException:
                 try:
                     final_price_list = driver.find_element(By.CSS_SELECTOR , "div[data-theme-animation='price-container'] [data-testid='price-final']")
-
                     price = final_price_list
                 except NoSuchElementException:
                     d_prices.append("//")
                     print('//')
             
 
-            if out_off_stock == False:
+            if out_of_stock == False:
                 if isinstance(price , str):
                     d_prices.append(price)
                     print(price)
@@ -398,11 +399,11 @@ def digi_scrape(driver, digi_urls):
 percent = 100 / len(techno_urls)
 
 # loading the page 
-def techno_scrape():
+def techno_scrape(driver, techno_urls):
     for model , url in techno_urls.items():
 
         if url == r"": 
-            out_off_stock = True
+            out_of_stock = True
             t_prices.append("**")
             print(model , end="---**")
             continue
@@ -416,7 +417,7 @@ def techno_scrape():
         print(model , end="---")
 
         try:
-            product_title = WebDriverWait(driver, 20).until(
+            WebDriverWait(driver, 20).until(
                     EC.presence_of_element_located((By.ID, "pdp_name"))
                 )     
             
@@ -424,14 +425,13 @@ def techno_scrape():
             try:
                 driver.find_element(By.XPATH , '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[2]/div/div/div/div/div/p[contains (text() , "ناموجود")]')
             except NoSuchElementException:
-                pass
+                out_of_stock = False
             else:
                 t_prices.append("**")
                 print('**')
                 continue
 
             rang = 'N/A'
-            out_off_stock = False
             price = "//"
 
             
@@ -445,22 +445,16 @@ def techno_scrape():
                 except NoSuchElementException:
                     pass
                 except ElementClickInterceptedException:
-                    if deny(driver.find_element(By.CSS_SELECTOR, "[style='background-color:#00009c']")) == 1:
+                    if deny(driver, driver.find_element(By.CSS_SELECTOR, "[style='background-color:#00009c']")) == 1:
                         continue
                 else:
                     rang = "DarkBlue"
             except ElementClickInterceptedException:
-                if deny(driver.find_element(By.CSS_SELECTOR, "[style='background-color:#1a1a1a'")) == 1:
+                if deny(driver, driver.find_element(By.CSS_SELECTOR, "[style='background-color:#1a1a1a'")) == 1:
                     continue
             else:
                 rang = "Black"
 
-            # Removing The inserunce Option
-            try:
-                driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[1]/div/div[2]/button").cliclk()
-            except:
-                print(f"Removing Inserunce Failed for {model}")
-            
             # finding the price and scraping it
             for x in xpath_for_price_techno:
                 try:
@@ -472,7 +466,7 @@ def techno_scrape():
         
 
 
-            if out_off_stock == False:
+            if out_of_stock == False:
                 if isinstance(price, str):
                     t_prices.append(price)
                     print(price)
@@ -540,51 +534,63 @@ def convert_to_pdf(doc_file, output_path):
     pdf_file = str(output_path.with_suffix(".pdf"))
     convert(doc_file, pdf_file)
 
-def single_digi_scrape(model):
-    out_off_stock = True
-    rang = False
+def single_digi_scrape(driver, model, url):
+    if url == r"":
+        print(model , end=" **")
+        return
+    
+    out_of_stock = True
+    # rang = False
     
     if not wait_for_connection(max_retries=10, retry_delay=10):
         print("Could not establish connection. Exiting program.")
         return False
     else:
-        driver.get(digi_urls[model])
+        driver.get(url)
+
 
     try:
-        product_title = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='pdp-title']"))
-            )      
-        
+        WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='pdp-title']"))
+        )
+
 
         try:
-            driver.find_element(By.XPATH , '/html/body/div/div[1]/div[3]/main/div[2]/div[2]/div[2]/div[1]/div/h1/span')
-        except NoSuchElementException:
-            out_off_stock = False
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located(
+                    (By.CSS_SELECTOR, "h1 span.text-h4.text-primary-700")
+                )
+            )
+        except TimeoutException:
+            out_of_stock = False
         else:
             print(f"{model} **")
 
 
         # cheking for the colors available
         if click_color(driver):
-            rang = "color"
-        else:
-            out_off_stock= True
+            Color_Clicked = True
 
-        if rang:
-            print(model , rang, end=" ")
-        else:
-            print(model , end=" ")
+
+        print(model , end=" ")
         
         try:
-            price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-no-discount"]')
+            price_no_discount = driver.find_element(By.CSS_SELECTOR , "div[data-theme-animation='price-container'] [data-testid='price-no-discount']")
+            if 'line-trough' in price_no_discount.get_attribute("class"):
+                final_price_list = driver.find_element(By.CSS_SELECTOR , "div[data-theme-animation='price-container'] [data-testid='price-final']")
+                price = final_price_list
+            else:
+                price = price_no_discount
         except NoSuchElementException:
             try:
-                price = driver.find_element(By.CSS_SELECTOR , '[data-testid="price-final"]')
+                final_price_list = driver.find_element(By.CSS_SELECTOR , "div[data-theme-animation='price-container'] [data-testid='price-final']")
+                price = final_price_list
             except NoSuchElementException:
+                d_prices.append("//")
                 print('//')
-        
+                return
 
-        if out_off_stock == False:
+        if out_of_stock == False:
             if isinstance(price , str):
                 print(price)
                 return price
@@ -600,37 +606,38 @@ def single_digi_scrape(model):
 
 
 # loading the page 
-def single_techno_scrape(model):    
-    if techno_urls[model] == r"https://www.google.com": 
-        out_off_stock = True
-        print(model , end="--- **")
+def single_techno_scrape(driver, model, url):    
+    if url == r"": 
+        out_of_stock = True
+        print(model , end=" **")
         return
 
     if not wait_for_connection(max_retries=10, retry_delay=10):
         print("Could not establish connection. Exiting program.")
         return False
     else:
-        driver.get(techno_urls[model])
+        driver.get(url)
 
-    print(model , end="---")
+    print(model , end=" ")
 
     try:
-        product_title = WebDriverWait(driver, 20).until(
+        WebDriverWait(driver, 20).until(
                 EC.presence_of_element_located((By.ID, "pdp_name"))
             )     
         
 
         try:
-            out_off_stock = driver.find_element(By.XPATH , '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[2]/div/div/div/div/div/p[contains (text() , "ناموجود")]')
+            out_of_stock = driver.find_element(By.XPATH , '//*[@id="__next"]/div[3]/main/div/div/article[1]/section[2]/div/div[2]/div/div/div/div/div/p[contains (text() , "ناموجود")]')
         except NoSuchElementException:
             pass
         else:
             t_prices.append("**")
             print('**')
+            return
             
 
         rang = 'N/A'
-        out_off_stock = False
+        out_of_stock = False
         price = "//"
 
         
@@ -647,7 +654,7 @@ def single_techno_scrape(model):
                 try:
                     dark_blue_btn.click()                    
                 except ElementClickInterceptedException:
-                    if deny(dark_blue_btn) == 1:
+                    if deny(driver, dark_blue_btn) == 1:
                         return
                 else:
                     rang = "DarkBlue"          
@@ -655,17 +662,10 @@ def single_techno_scrape(model):
             try:
                 black_btn.click()
             except ElementClickInterceptedException:
-                if deny(black_btn) == 1:
+                if deny(driver, black_btn) == 1:
                     return
             else:
                 rang = "Black"
-                
-        # Removing The inserunce Option
-        try:
-            driver.find_element(By.XPATH, "/html/body/div[1]/div[3]/main/div/div/article[1]/section[2]/div/div[1]/div/div/div[1]/div/div[2]/button").cliclk()
-        except:
-            print(f"Removing Inserunce Failed for {model} with exception {Exception}")
-
             
         # finding the price and scraping it
         for x in xpath_for_price_techno:
@@ -676,11 +676,11 @@ def single_techno_scrape(model):
             else:
                 break
                 
-        if rang:
-            print(rang, end="")
+        if rang != "N/A":
+            print(rang, end=" ")
 
 
-        if out_off_stock == False:
+        if out_of_stock == False:
             if isinstance(price, str):
                 print(price)
                 return price
@@ -692,16 +692,16 @@ def single_techno_scrape(model):
             print(f"Failed to find the title for {model} within the given time.")
 
 
-def list_gen():
+def list_gen(driver):
     try:
-        # digi_start = time.time()
-        # digi_scrape(driver, digi_urls)
-        # digi_end = time.time()
-        # digi_time = digi_end - digi_start
-        # print(f"Digi time = {digi_time}")
+        digi_start = time.time()
+        digi_scrape(driver, digi_urls)
+        digi_end =  time.time()
+        digi_time = digi_end - digi_start
+        print(f"Digi time = {digi_time}")
 
         techno_start = time.time()
-        techno_scrape()
+        techno_scrape(driver, techno_urls)
         techno_end = time.time()
         techno_time = techno_end - techno_start
         print(f"Techno time = {techno_time}")
@@ -725,28 +725,46 @@ def list_gen():
         output_path
     )
 
-def single_model():
-    model_to_scrape = input("Enter the phone model you want to scrape (e.g., A05-64-4): ")
-    
-    if model_to_scrape not in digi_urls or model_to_scrape not in techno_urls:
-        raise ValueError(f"Model '{model_to_scrape}' not found in URLs dictionaries.")
+def single_model(driver):  
+    for i, model in enumerate(phone_models, start=1):
+        print(f"{i}. {model}")
 
-    techno_start = time.time()
-    single_techno_scrape(model_to_scrape)
-    techno_end = time.time()
-    techno_time = techno_end - techno_start
-    print(f"Digi time = {techno_time}")
-    # m_pbar.update(1)
+    while True:
+        choice = input("\nEnter the number of the phone: ")
 
+        try:
+            choice = int(choice)
+
+            if 1 <= choice <= len(phone_models):
+                model = phone_models[choice - 1]
+                digi_url = digi_urls[model]
+                techno_url = techno_urls[model]
+                break
+            if choice == 0:
+                print("Please enter the Urls manually")
+                digi_url = input("Digikala Url : ")
+                techno_url = input("Technolife Url : ")
+
+            print("Please choose a valid number.")
+
+        except ValueError:
+            print("Please enter a number.")
+
+        
     digi_start = time.time()
-    single_digi_scrape(model_to_scrape)
+    single_digi_scrape(driver, model, digi_url)
     digi_end = time.time()
-
     digi_time = digi_end - digi_start
     print(f"Digi time = {digi_time}")
 
+    techno_start = time.time()
+    single_techno_scrape(driver, model, techno_url)
+    techno_end = time.time()
+    techno_time = techno_end - techno_start
+    print(f"Techno time = {techno_time}")
+
+
     driver.quit()
-    
     return
 
 
@@ -755,16 +773,18 @@ def main():
         print("Could not establish connection. Exiting program.")
     else:
         while True:
-            user_input = input("Do you want to generate the price list for phones...?(Y/N)")
-            driver = create_driver()
-            if user_input == 'Y' or user_input == 'y':
-                list_gen()
-                break
-            elif user_input == 'N' or user_input == 'n':
-                single_model()
-                break
+            user_input = input("Do you want to generate the price list for phones...?(Y/N) ")
+            if user_input.lower() not in ('y','n'):
+                print("Invalid input. Please enter 'Y' or 'N' \nPlease Try again(Y/N) ")
             else:
-                print("Invalid input. Please enter 'Y' or 'N' \nPlease Try again(Y/N)")
+                break
+
+        driver = create_driver()
+
+        if user_input == 'Y' or user_input == 'y':
+            list_gen(driver)
+        elif user_input == 'N' or user_input == 'n':
+            single_model(driver)
 
 
 if __name__ == "__main__":
