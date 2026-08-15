@@ -1,4 +1,4 @@
-import logging
+import os, sys, time, argparse, logging, urllib.request
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException
@@ -11,9 +11,6 @@ from docx import Document
 from docx.shared import Pt
 from docx2pdf import convert
 from persiantools.jdatetime import JalaliDate
-import os, sys
-import time
-import urllib.request
 from selenium.common.exceptions import StaleElementReferenceException
 from pathlib import Path
 
@@ -322,7 +319,6 @@ def normalize_price(price_text):
 def digi_scrape(driver, digi_urls):
     for model , url in digi_urls.items():
         out_of_stock = True
-        # rang = False
 
         if url == r"": 
             d_prices.append("**")
@@ -335,18 +331,16 @@ def digi_scrape(driver, digi_urls):
         else:
             driver.get(url)
 
+        
         try:
             WebDriverWait(driver, 15).until(
-                    EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='pdp-title']"))
-                )
+                EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='pdp-title']"))
+            )
+
             
             # Trying to Finding Out of stock text
             try:
-                WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located(
-                        (By.CSS_SELECTOR, "h1 span.text-h4.text-primary-700")
-                    )
-                )
+                driver.find_element(By.CSS_SELECTOR, "h1 span.text-h4.text-primary-700")
             except NoSuchElementException:
                 out_of_stock = False
             else:
@@ -354,14 +348,11 @@ def digi_scrape(driver, digi_urls):
                 d_prices.append('**')
                 continue
 
+            
             if click_color(driver):
                 Color_Clicked = True
-
-
-            # if rang:
-            #     print(model , rang, end=" ")
-            # else:
-            #     print(model , end=" ")
+         
+            print(model , end=" ")
             
             try:
                 price_no_discount = driver.find_element(By.CSS_SELECTOR , "div[data-theme-animation='price-container'] [data-testid='price-no-discount']")
@@ -378,7 +369,6 @@ def digi_scrape(driver, digi_urls):
                     d_prices.append("//")
                     print('//')
             
-
             if out_of_stock == False:
                 if isinstance(price , str):
                     d_prices.append(price)
@@ -573,6 +563,7 @@ def single_digi_scrape(driver, model, url):
 
 
         print(model , end=" ")
+
         
         try:
             price_no_discount = driver.find_element(By.CSS_SELECTOR , "div[data-theme-animation='price-container'] [data-testid='price-no-discount']")
@@ -705,9 +696,8 @@ def list_gen(driver):
         techno_end = time.time()
         techno_time = techno_end - techno_start
         print(f"Techno time = {techno_time}")
-    finally:
-        driver.quit()
-
+    except Exception as e:
+        print(f"List gen has failed with the given Error :\n{e}")
 
     today_date = str(JalaliDate.today())
     file_name = today_date[5:]
@@ -764,27 +754,26 @@ def single_model(driver):
     print(f"Techno time = {techno_time}")
 
 
-    driver.quit()
+
     return
 
 
 def main():
+    parser = argparse.ArgumentParser() 
+    parser.add_argument("--list", action="store_true")
+    args = parser.parse_args()
+
     if not wait_for_connection(max_retries=10, retry_delay=10):
         print("Could not establish connection. Exiting program.")
     else:
-        while True:
-            user_input = input("Do you want to generate the price list for phones...?(Y/N) ")
-            if user_input.lower() not in ('y','n'):
-                print("Invalid input. Please enter 'Y' or 'N' \nPlease Try again(Y/N) ")
-            else:
-                break
-
         driver = create_driver()
 
-        if user_input == 'Y' or user_input == 'y':
+        if args.list:
             list_gen(driver)
-        elif user_input == 'N' or user_input == 'n':
+        else:
             single_model(driver)
+
+        driver.quit()
 
 
 if __name__ == "__main__":
